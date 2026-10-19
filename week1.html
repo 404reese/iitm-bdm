@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BDM Week 1 notes: foundations of economics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,450;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;650&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF6EF; --surface:#FFFFFF; --surface2:#F1ECDE; --ink:#3A3530; --muted:#8A8070; --line:#E3DBC6;
+  --red:#C2765A; --redsoft:#F6E7DD; --blue:#6E8E66; --bluesoft:#E9EFE2;
+  --teal:#527A6B; --tealsoft:#E2EEE7; --amber:#B9872E; --ambersoft:#FAF0D8;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#1C1A15; --surface:#242019; --surface2:#2C271E; --ink:#EEE7D9; --muted:#AFA48F; --line:#3C352A;
+    --red:#E0A085; --redsoft:#3A2A20; --blue:#9BC08F; --bluesoft:#28311F;
+    --teal:#8FC1AE; --tealsoft:#1F2F28; --amber:#E0B35C; --ambersoft:#3A2F18;
+    color-scheme: dark;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:16px}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.7 "Inter",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;letter-spacing:.1px}
+.wrap{display:grid;grid-template-columns:minmax(0,1fr);max-width:1160px;margin:0 auto;padding:0 20px 80px}
+@media (min-width:1040px){.wrap{grid-template-columns:230px minmax(0,1fr);gap:56px}}
+nav.toc{font-size:14.5px;padding-top:24px}
+@media (min-width:1040px){nav.toc{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto;padding-top:40px}}
+nav.toc summary{cursor:pointer;font-weight:650;padding:6px 0}
+nav.toc ol{list-style:none;margin:6px 0 0;padding:0}
+nav.toc li a{display:block;padding:4px 0 4px 12px;border-left:2px solid var(--line);color:var(--muted);text-decoration:none}
+nav.toc li a:hover,nav.toc li a:focus-visible{color:var(--ink);border-left-color:var(--teal)}
+a{color:var(--teal)}
+a:focus-visible,summary:focus-visible{outline:2px solid var(--teal);outline-offset:2px;border-radius:3px}
+main{max-width:760px;padding-top:24px}
+header.hero{padding:28px 0 8px}
+h1,h2{font-family:"Fraunces","Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;font-weight:600;line-height:1.2;letter-spacing:-.01em}
+h1{font-size:2.6rem;margin:0 0 .35em;font-weight:450;font-style:italic}
+h2{font-size:1.7rem;margin:2.6em 0 .6em;padding-bottom:.3em;border-bottom:1.5px solid var(--line);color:var(--ink)}
+h3{font-family:"Fraunces",serif;font-size:1.18rem;margin:1.8em 0 .4em;font-weight:600}
+p{margin:.7em 0}
+.lead{font-size:1.15rem;color:var(--muted);max-width:60ch}
+ul,ol{padding-left:1.3em}
+li{margin:.25em 0}
+.src{display:inline-block;font-size:.72rem;line-height:1.5;padding:0 8px;border-radius:999px;border:1px solid var(--line);background:var(--surface2);color:var(--muted);margin:0 3px 0 0;white-space:nowrap;vertical-align:.12em}
+.src.v{border-color:var(--blue);color:var(--blue)}
+.src.l{border-color:var(--red);color:var(--red)}
+.src.me{border-style:dashed;border-color:var(--teal);color:var(--teal)}
+.callout{margin:1.2em 0;padding:12px 16px;border-radius:0 8px 8px 0;border-left:4px solid var(--line);background:var(--surface2)}
+.callout>:first-child{margin-top:0}.callout>:last-child{margin-bottom:0}
+.key{border-left-color:var(--red);background:var(--redsoft)}
+.def{border-left-color:var(--blue);background:var(--bluesoft)}
+.eg{border-left-color:var(--teal);background:var(--tealsoft)}
+.flag{border-left-color:var(--amber);background:var(--ambersoft)}
+.callout b.lead-in{font-weight:700}
+.scroll{overflow-x:auto;margin:1em 0}
+table{border-collapse:collapse;width:100%;font-size:.93rem;background:var(--surface)}
+th,td{border:1px solid var(--line);padding:8px 11px;vertical-align:top;text-align:left}
+th{background:var(--surface2);font-weight:650}
+figure.fig{margin:1.5em 0;padding:12px 12px 8px;background:var(--surface);border:1px solid var(--line);border-radius:14px}
+figure.fig svg{display:block;width:100%;height:auto}
+figcaption{font-size:.85rem;color:var(--muted);margin-top:6px}
+svg text{fill:var(--ink);font-family:inherit;font-size:13px}
+svg .b{font-weight:650}
+svg .sm{font-size:11.5px;fill:var(--muted)}
+svg .t2{font-size:12px}
+svg .box{fill:var(--surface2);stroke:var(--line);stroke-width:1.2}
+svg .boxb{fill:var(--bluesoft);stroke:var(--blue);stroke-width:1.2}
+svg .boxr{fill:var(--redsoft);stroke:var(--red);stroke-width:1.2}
+svg .boxt{fill:var(--tealsoft);stroke:var(--teal);stroke-width:1.2}
+svg .boxa{fill:var(--ambersoft);stroke:var(--amber);stroke-width:1.2}
+svg .ln{stroke:var(--muted);fill:none;stroke-width:1.5}
+svg .axis{stroke:var(--ink);stroke-width:1.5;fill:none}
+svg .dash{stroke:var(--muted);stroke-width:1;stroke-dasharray:4 4;fill:none}
+svg .mk{fill:var(--muted)}
+svg .curve{stroke:var(--red);stroke-width:2.5;fill:none}
+svg .dot{fill:var(--red)}
+svg .dotb{fill:var(--blue)}
+.calc{font:14px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow-x:auto;white-space:pre;margin:1em 0}
+.cols{display:grid;gap:14px;grid-template-columns:1fr}
+@media (min-width:640px){.cols{grid-template-columns:1fr 1fr}.cols.three{grid-template-columns:1fr 1fr 1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.card h3{margin:.1em 0 .3em;font-size:1.02rem}
+.card p{margin:.4em 0;font-size:.95rem}
+dl.gloss dt{font-weight:650;margin-top:.9em}
+dl.gloss dd{margin:.1em 0 0}
+details.q{background:var(--surface);border:1px solid var(--line);border-radius:12px;margin:.6em 0;padding:2px 14px}
+details.q summary{cursor:pointer;padding:9px 0;font-weight:600}
+details.q[open] summary{border-bottom:1px solid var(--line);margin-bottom:6px}
+details.q p{margin:.5em 0 .8em}
+footer{margin-top:3em;font-size:.88rem;color:var(--muted)}
+@media print{nav.toc{display:none}.wrap{display:block}body{background:#fff}details.q:not([open]) p{display:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav class="toc" aria-label="Contents">
+<details id="tocd">
+<summary>Contents</summary>
+<ol>
+<li><a href="#glance">Week at a glance</a></li>
+<li><a href="#demand">Needs, wants, demand</a></li>
+<li><a href="#scarcity">Scarcity</a></li>
+<li><a href="#data">Economics for data work</a></li>
+<li><a href="#ramu">Case: Ramu’s tea stall</a></li>
+<li><a href="#optimize">Optimization</a></li>
+<li><a href="#scale">Micro, macro, economy</a></li>
+<li><a href="#utility">Utility and marginality</a></li>
+<li><a href="#choice">Rational choice and cost</a></li>
+<li><a href="#systems">Economic systems</a></li>
+<li><a href="#social">A social science</a></li>
+<li><a href="#production">Production</a></li>
+<li><a href="#problems">Worked problems</a></li>
+<li><a href="#glossary">Glossary</a></li>
+<li><a href="#check">Self-check</a></li>
+<li><a href="#gaps">Gaps and checks</a></li>
+</ol>
+</details>
+</nav>
+
+<main>
+<header class="hero">
+<h1>Business Data Management: Week 1 notes</h1>
+<p class="lead">Foundations of economics for people who will work with data: scarcity, choice, utility, economic systems, production, and two worked optimization problems.</p>
+
+<div class="scroll">
+<table>
+<thead><tr><th>Tag</th><th>Source</th><th>What it contributes</th></tr></thead>
+<tbody>
+<tr><td><span class="src v">Video 1</span></td><td>Lecture 01, “Economics Introduction” (Dr. Ashwin Baliga), transcript PDF</td><td>Needs/wants/desire, definitions of economics, goods, factors of production, micro vs macro</td></tr>
+<tr><td><span class="src v">Video 2</span></td><td>Lecture 02, “Economics” (Dr. Baliga), transcript PDF</td><td>Demand, scarcity, utility, marginal utility, rationality, opportunity cost, sectors</td></tr>
+<tr><td><span class="src l">Live 1</span></td><td>Handwritten whiteboard PDF “Live Session Lecture-1” plus the first half of the live-session transcript (orientation, then Dr. Aditya Chandel’s first session)</td><td>Course structure, data science and economics, Ramu’s tea stall, optimization, micro vs macro</td></tr>
+<tr><td><span class="src l">Live 2</span></td><td>Handwritten whiteboard PDF “Live Session Lecture-2” plus the second half of the transcript</td><td>Economic systems, open/closed economies, toothbrush case, two worked problems, factors of production, sectors</td></tr>
+<tr><td><span class="src me">My addition</span></td><td>Arithmetic checks and practice variants I added</td><td>Marked clearly so you can tell them apart from lecture content</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Boxes mean: <b>Key idea</b> (red edge), <b>Definition</b> (blue), <b>Example</b> (green), <b>Check this</b> (amber, where the sources are unclear or disagree). The live-session transcript is auto-generated and often garbled, so I cross-checked it against the whiteboard pages wherever I could.</p>
+</header>
+
+<section id="glance">
+<h2>Week at a glance</h2>
+<ul>
+<li>Economics is the science of <b>constrained choices</b>: allocating scarce resources to meet unlimited human wants. <span class="src v">Video 1</span></li>
+<li><b>Need</b> (survival) → <b>want</b> (quality of life) → <b>desire</b> (emotion-driven, may be unaffordable) → <b>demand</b> (desire plus ability and willingness to pay). <span class="src v">Video 1</span><span class="src v">Video 2</span></li>
+<li><b>Scarcity</b> is the root cause of economics. It comes in three kinds: demand-induced, supply-induced and structural. <span class="src v">Video 2</span><span class="src l">Live 1</span></li>
+<li>Data tells you <b>what</b> is happening, machine learning predicts <b>what will</b> happen, economics explains <b>why</b> and what to <b>do</b>. <span class="src l">Live 1</span></li>
+<li>Ramu’s tea stall: a price rise splits customers into elastic (switch) and inelastic (stay but trade off), which explains why tea rose while coffee and samosa fell. <span class="src l">Live 1</span></li>
+<li><b>Optimization</b> = an objective function plus constraints. The same pattern covers data science projects, startups, policy and daily routines. <span class="src l">Live 1</span><span class="src l">Live 2</span></li>
+<li><b>Marginal utility</b> falls as you consume more, which is why sellers cut the per-unit price for bulk buys. <span class="src v">Video 2</span></li>
+<li>People weigh <b>costs and benefits</b>, and every choice carries an <b>opportunity cost</b>. <span class="src v">Video 2</span></li>
+<li>Economies are <b>command, free-market or mixed</b>, and <b>open or closed</b>. <span class="src l">Live 2</span></li>
+<li>Production turns raw material into <b>goods</b> (tangible) or <b>services</b> (intangible) using <b>land, labour, physical capital and entrepreneurship</b>. Four sectors: primary, secondary, tertiary, quaternary. <span class="src v">Video 1</span><span class="src v">Video 2</span><span class="src l">Live 2</span></li>
+<li>Two solved problems (Ramu’s budget, an organic farm’s water) show how to turn a story into a constraint equation. <span class="src l">Live 2</span></li>
+</ul>
+</section>
+
+<section id="demand">
+<h2>Needs, wants, desire, demand</h2>
+<figure class="fig">
+<svg viewBox="0 0 760 195" role="img" aria-label="Ladder from need to want to desire to demand">
+<defs><marker id="ar1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker></defs>
+<rect class="boxt" x="10" y="15" width="150" height="44" rx="8"/><text class="b" x="85" y="43" text-anchor="middle">Need</text>
+<rect class="boxb" x="210" y="15" width="150" height="44" rx="8"/><text class="b" x="285" y="43" text-anchor="middle">Want</text>
+<rect class="boxa" x="410" y="15" width="150" height="44" rx="8"/><text class="b" x="485" y="43" text-anchor="middle">Desire</text>
+<rect class="boxr" x="610" y="15" width="140" height="44" rx="8"/><text class="b" x="680" y="43" text-anchor="middle">Demand</text>
+<path class="ln" d="M164,37 H206" marker-end="url(#ar1)"/><path class="ln" d="M364,37 H406" marker-end="url(#ar1)"/><path class="ln" d="M564,37 H606" marker-end="url(#ar1)"/>
+<g class="t2" text-anchor="middle">
+<text class="t2" x="85" y="84">Essential to survive:</text><text class="t2" x="85" y="101">food, clothing,</text><text class="t2" x="85" y="118">shelter, healthcare</text>
+<text class="t2" x="285" y="84">Appears once needs are</text><text class="t2" x="285" y="101">met; raises quality of life</text><text class="t2" x="285" y="118">(entertainment, travel)</text>
+<text class="t2" x="485" y="84">A want driven by emotion</text><text class="t2" x="485" y="101">that may lack the money</text><text class="t2" x="485" y="118">to buy it</text>
+<text class="t2" x="680" y="84">Desire plus ability and</text><text class="t2" x="680" y="101">willingness to pay</text><text class="t2" x="680" y="118">(purchasing power)</text>
+</g>
+<text class="sm" x="10" y="165">Example: a low-income buyer who wants a luxury car has a desire, not demand: no purchasing power.</text>
+</svg>
+<figcaption>The ladder from need to demand. <span class="src v">Video 1</span><span class="src v">Video 2</span></figcaption>
+</figure>
+
+<div class="callout def"><p><b class="lead-in">Definition.</b> <b>Demand</b> is desire backed by the ability <em>and</em> willingness to pay. A firm only counts you as demand if you have purchasing power.</p></div>
+
+<h3>Infinite wants</h3>
+<ul>
+<li>Humans have <b>infinite (insatiable) wants</b>: once needs are met we keep wanting more. The lecturer notes this is a widely held belief, not something established by scientific testing.</li>
+<li>This does <b>not</b> make people selfish: we also care about others and wish them to have more.</li>
+<li>“Wants” here means goods and services that people desire and that improve quality of life. Week 3 covers the difference between a product and a service.</li>
+</ul>
+</section>
+
+<section id="scarcity">
+<h2>Scarcity and the economic problem</h2>
+<figure class="fig">
+<svg viewBox="0 0 760 252" role="img" aria-label="Unlimited wants and limited resources create scarcity, which forces allocation">
+<defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker></defs>
+<rect class="boxb" x="20" y="12" width="300" height="58" rx="8"/><text class="b" x="170" y="37" text-anchor="middle">Human wants</text><text class="t2" x="170" y="56" text-anchor="middle">unlimited, insatiable</text>
+<rect class="boxt" x="440" y="12" width="300" height="58" rx="8"/><text class="b" x="590" y="37" text-anchor="middle">Resources</text><text class="t2" x="590" y="56" text-anchor="middle">scarce: land, labour, capital, enterprise</text>
+<path class="ln" d="M170,72 L270,108" marker-end="url(#ar2)"/><path class="ln" d="M590,72 L490,108" marker-end="url(#ar2)"/>
+<rect class="boxr" x="230" y="110" width="300" height="54" rx="8"/><text class="b" x="380" y="133" text-anchor="middle">Scarcity: root cause of economics</text><text class="t2" x="380" y="151" text-anchor="middle">wants exceed what resources can produce</text>
+<path class="ln" d="M380,166 V190" marker-end="url(#ar2)"/>
+<rect class="boxa" x="180" y="192" width="400" height="50" rx="8"/><text class="b" x="380" y="214" text-anchor="middle">Allocate the available resources carefully</text><text class="t2" x="380" y="232" text-anchor="middle">goal: maximum satisfaction</text>
+</svg>
+<figcaption>Why economics exists (whiteboard diagram, redrawn). <span class="src l">Live 1</span><span class="src v">Video 1</span></figcaption>
+</figure>
+
+<div class="callout key"><p><b class="lead-in">Key idea.</b> If wants were finite, or resources unlimited, there would be no economic problem and no economics. Neither is true, so choices must be made.</p></div>
+
+<h3>Ways the lectures define economics</h3>
+<ul>
+<li>The science of <b>constrained choices</b>. <span class="src v">Video 1</span></li>
+<li>The science of allocating <b>scarce resources</b> to meet <b>unlimited human wants</b>. <span class="src v">Video 1</span></li>
+<li>How goods and services are produced and delivered, and why individuals, businesses and governments make the spending decisions they do. <span class="src v">Video 2</span></li>
+<li>The <b>study of a system</b>: understand it, analyse it, then optimize it. <span class="src l">Live 2</span></li>
+<li>Optimization under constraints. <span class="src l">Live 2</span> (recap)</li>
+</ul>
+<p>The <b>economic problem</b> is the need to allocate scarce resources carefully because we cannot all get everything we want.</p>
+
+<h3>Economic goods and free goods</h3>
+<ul>
+<li><b>Economic goods</b> are scarce: producing them uses scarce resources.</li>
+<li><b>Free goods</b> exist in enough supply to meet every want (the example is air).</li>
+<li>Not paying does not make something free. Free hospitalization for poor people is still an <b>economic good</b>, because scarce resources are used to provide the healthcare.</li>
+</ul>
+
+<h3>Three causes of scarcity</h3>
+<div class="scroll">
+<table>
+<thead><tr><th>Type</th><th>What changes</th><th>Examples given</th></tr></thead>
+<tbody>
+<tr><td>Demand-induced</td><td>Supply stays the same; demand rises</td><td>Population growth; rising demand for one product</td></tr>
+<tr><td>Supply-induced</td><td>Demand stays the same; supply falls</td><td>Geopolitical disruption of fuel supply chains; crop failure after heavy rain; force majeure (natural calamities)</td></tr>
+<tr><td>Structural</td><td>Some people have less access to resources than others</td><td>Villages versus tier-one cities: healthcare, passport offices, banking, other government services</td></tr>
+</tbody>
+</table>
+</div>
+<p><span class="src v">Video 2</span> The supply-induced case also led to talk of cutting fuel use, working from home and more renewable energy.</p>
+
+<h3>Resources and the economic problem in Video 1</h3>
+<ul>
+<li>Resources come from “Mother Earth” and are grouped into four <b>factors of production</b>: land, labour, capital, enterprise (details in <a href="#production">Production</a>).</li>
+<li><b>Production</b> in economics is any activity that satisfies a human want; goods and services have been produced once they are supplied.</li>
+</ul>
+<h3>Two common misconceptions</h3>
+<ul>
+<li><b>“Economics is about money.”</b> Money is studied only because it helps address the economic problem. Resources can be time, supply chains, anything scarce. <span class="src v">Video 1</span><span class="src l">Live 1</span></li>
+<li><b>“Knowing economics guarantees business success.”</b> It will not make you rich or poor, but it helps you understand business situations and decide better. <span class="src v">Video 1</span></li>
+</ul>
+</section>
+
+<section id="data">
+<h2>Economics for data work</h2>
+<p>Dr. Chandel opened with a question: why study economics in a data science programme? <span class="src l">Live 1</span></p>
+
+<h3>Two myths about data</h3>
+<ul>
+<li><b>Myth:</b> data science means only coding, analytics and plotting x against y.</li>
+<li><b>Reality:</b> <b>data is raw information</b> from any field (finance, medicine, images), containing <b>pattern plus noise</b>. You extract the pattern that matters for <em>this</em> company’s domain and discard the noise.</li>
+</ul>
+<p>When asked, students defined data as a collection of facts or information, raw and unstructured (or semi-structured) until organized. The board adds: BDM = Business + Data + Management.</p>
+
+<div class="callout key"><p><b class="lead-in">Key idea.</b> Nobody pays you to plot x and y. They pay for a <b>data-centric solution</b>: an explanation of what is happening, a view of what will happen, and a sensible action. Knowing a theorem is useless if you do not know where to apply it.</p></div>
+
+<h3>What a data scientist brings, and what is still missing</h3>
+<ul>
+<li>Skills: managing computational resources, advanced algorithms (LLMs, machine learning, reinforcement learning), and cleaning data.</li>
+<li>Missing without domain concepts: the ability to give reasons. A live CPU-usage chart is a set of spikes. Without hardware knowledge you cannot say <em>why</em> usage hit 65%, or how to improve performance.</li>
+<li>Multiple factors matter: a batter is judged on runs, strike rate and innings played, not one number (the Virat Kohli example).</li>
+</ul>
+
+<h3>Data, machine learning, economics</h3>
+<figure class="fig">
+<svg viewBox="0 0 760 215" role="img" aria-label="Data shows what is happening, machine learning predicts, economics explains why and what to do">
+<defs><marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker></defs>
+<rect class="boxb" x="10" y="14" width="230" height="122" rx="8"/>
+<text class="b" x="125" y="40" text-anchor="middle">Data</text><text class="t2" x="125" y="62" text-anchor="middle">what is actually happening</text>
+<text class="sm" x="125" y="92" text-anchor="middle">orders far exceed riders;</text><text class="sm" x="125" y="108" text-anchor="middle">supply chain disrupted</text>
+<rect class="boxa" x="265" y="14" width="230" height="122" rx="8"/>
+<text class="b" x="380" y="40" text-anchor="middle">Machine learning</text><text class="t2" x="380" y="62" text-anchor="middle">what will happen</text>
+<text class="sm" x="380" y="92" text-anchor="middle">forecast the price rise if the</text><text class="sm" x="380" y="108" text-anchor="middle">disruption lasts six months</text>
+<rect class="boxr" x="520" y="14" width="230" height="122" rx="8"/>
+<text class="b" x="635" y="40" text-anchor="middle">Economics</text><text class="t2" x="635" y="62" text-anchor="middle">why it happens, what to do</text>
+<text class="sm" x="635" y="92" text-anchor="middle">causes of the blockage;</text><text class="sm" x="635" y="108" text-anchor="middle">measures to control price</text>
+<path class="ln" d="M244,75 H261" marker-end="url(#ar3)"/><path class="ln" d="M499,75 H516" marker-end="url(#ar3)"/>
+<rect class="boxt" x="10" y="160" width="740" height="40" rx="8"/>
+<text class="b" x="380" y="185" text-anchor="middle">Together: a data-centric solution for the company</text>
+</svg>
+<figcaption>Three steps of a data-centric solution (whiteboard flow, redrawn). <span class="src l">Live 1</span></figcaption>
+</figure>
+
+<div class="callout eg"><p><b class="lead-in">Example: dynamic pricing.</b> A delivery app sees far more orders than riders. Demand cannot be met, so it prices higher or prioritises premium customers. Data shows the shortage, ML forecasts how prices will move, and economics (demand, supply, equilibrium) explains the mechanism and the options. Prices change every second, so this needs algorithms, and the model must keep prices acceptable: if surge pricing is too high, customers go to a competitor.</p></div>
+<ul>
+<li>A supply-chain break pushes commodity prices up, as in floods or the recent geopolitical disruption the instructor cited.</li>
+<li><b>Map and compass:</b> locations on a map are the data; economics is the compass that tells you how to reach the one you want.</li>
+</ul>
+<p>The whiteboard also sketches a demand curve and a supply curve crossing at the <b>equilibrium point</b>, where buyers are willing to buy and sellers are willing to sell. Demand and supply come in week 2 and later live sessions.</p>
+</section>
+
+<section id="ramu">
+<h2>Case: Ramu’s tea stall</h2>
+<p>Ramu runs a tea stall on the IIT Madras campus, selling tea, coffee, samosa and juices, mostly to students and professors. A BDM student analysed his data. Ramu is a <b>single business</b>, so this is a microeconomic case. <span class="src l">Live 1</span></p>
+
+<div class="callout eg"><p><b class="lead-in">Setup.</b> Ramu raised the price of coffee to ₹20 while tea stayed at ₹10. Afterwards he saw swings in other products too, plus food wastage from unpredictable demand.</p></div>
+<div class="callout flag"><p><b class="lead-in">Check this.</b> The “before” price of coffee is unclear: the transcript is garbled and the board’s first figure is hard to read (it looks like ₹10). Only the ₹20 after the rise is certain.</p></div>
+
+<h3>What the data showed (illustrative numbers)</h3>
+<div class="scroll">
+<table>
+<thead><tr><th>Product</th><th>Change in sales</th></tr></thead>
+<tbody>
+<tr><td>Tea</td><td>up about 40%</td></tr>
+<tr><td>Coffee</td><td>down about 50%</td></tr>
+<tr><td>Samosa</td><td>down about 20%</td></tr>
+</tbody>
+</table>
+</div>
+<p>The instructor called these “random numbers” used to explain the concept. Data shows <em>what</em> happened; economics must explain <em>why</em>.</p>
+
+<figure class="fig">
+<svg viewBox="0 0 760 338" role="img" aria-label="Decision tree showing how elastic and inelastic customers explain the changes in tea, coffee and samosa sales">
+<defs><marker id="ar4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker></defs>
+<rect class="boxa" x="180" y="8" width="400" height="52" rx="8"/>
+<text class="b" x="380" y="30" text-anchor="middle">Coffee price rises to ₹20; tea stays ₹10</text><text class="sm" x="380" y="49" text-anchor="middle">customers each have a limited budget</text>
+<path class="ln" d="M330,62 L205,104" marker-end="url(#ar4)"/><path class="ln" d="M430,62 L555,104" marker-end="url(#ar4)"/>
+<rect class="boxb" x="20" y="106" width="350" height="88" rx="8"/>
+<text class="b" x="195" y="130" text-anchor="middle">Elastic customers</text><text class="t2" x="195" y="150" text-anchor="middle">respond to the change in value</text><text class="t2" x="195" y="167" text-anchor="middle">and switch from coffee to tea</text><text class="sm" x="195" y="184" text-anchor="middle">illustration: about 80% of coffee drinkers</text>
+<rect class="boxr" x="390" y="106" width="350" height="88" rx="8"/>
+<text class="b" x="565" y="130" text-anchor="middle">Inelastic customers</text><text class="t2" x="565" y="150" text-anchor="middle">stay with coffee, but the budget is fixed,</text><text class="t2" x="565" y="167" text-anchor="middle">so they trade off: coffee only, no samosa</text><text class="sm" x="565" y="184" text-anchor="middle">illustration: about 20%</text>
+<path class="ln" d="M195,196 V232" marker-end="url(#ar4)"/><path class="ln" d="M565,196 V232" marker-end="url(#ar4)"/>
+<rect class="boxt" x="20" y="234" width="350" height="66" rx="8"/>
+<text class="b" x="195" y="259" text-anchor="middle">Tea sales up about 40%</text><text class="t2" x="195" y="278" text-anchor="middle">coffee sales down</text>
+<rect class="boxt" x="390" y="234" width="350" height="66" rx="8"/>
+<text class="b" x="565" y="259" text-anchor="middle">Samosa sales down about 20%</text><text class="t2" x="565" y="278" text-anchor="middle">coffee + samosa becomes coffee only</text>
+<text class="sm" x="380" y="326" text-anchor="middle">Percentages are the instructor’s illustrative numbers, not real data.</text>
+</svg>
+<figcaption>How economic concepts explain the sales pattern. <span class="src l">Live 1</span></figcaption>
+</figure>
+
+<h3>The three concepts doing the work</h3>
+<div class="cols three">
+<div class="card"><h3>Elastic and inelastic</h3><p>Elastic customers change what they buy when price (or value) changes. Inelastic customers do not. “Value” is wider than money: time counts too.</p></div>
+<div class="card"><h3>Trade-off</h3><p>Choosing one thing means giving up another. A student with a fixed refreshment budget (say ₹20 a day) who keeps coffee may drop the samosa. Another story: a friend with two movie tickets and a quiz tomorrow must sacrifice something.</p></div>
+<div class="card"><h3>Scarcity</h3><p>Unlimited wants meet a limited budget (for example ₹1,000 pocket money a month), so you aim for maximum satisfaction within it.</p></div>
+</div>
+<div class="callout flag"><p><b class="lead-in">Check this.</b> Two things in the transcript can mislead. First, the wording of “elastic” and “inelastic” is swapped in places by speech-to-text errors; the board confirms elastic = switchers, inelastic = stayers. Second, the numbers do not reconcile exactly: if 80% of coffee drinkers switched, coffee sales would fall about 80%, not 50%. The instructor said not to worry about the numbers, and that this is a <em>justification from concepts</em>, not proof.</p></div>
+
+<h3>Follow-up points from the session</h3>
+<ul>
+<li>A student asked if there could be other reasons. Yes: for example, a <b>supply problem</b>. If coffee were removed from the menu, tea demand would rise automatically.</li>
+<li>A possible fix: raise prices in <b>small steps</b> (₹10 to ₹12 instead of a big jump) and watch how demand reacts, like gradual increases in a gas cylinder’s price that people barely notice. This is trial and error, offered as one option, not the only one.</li>
+</ul>
+</section>
+
+<section id="optimize">
+<h2>Optimization: objective plus constraints</h2>
+<div class="callout def"><p><b class="lead-in">Definition.</b> To optimize anything you need an <b>objective function</b> (what you want to maximize or minimize) and <b>constraints</b> (the limits you must stay within). <span class="src l">Live 1</span><span class="src l">Live 2</span></p></div>
+
+<div class="scroll">
+<table>
+<thead><tr><th>Situation</th><th>Objective</th><th>Constraints</th></tr></thead>
+<tbody>
+<tr><td>Data science project</td><td>Get 100% accuracy</td><td>Finite computation, time, memory, manpower</td></tr>
+<tr><td>Startup</td><td>Maximize growth</td><td>Finite capital, raw material, time, production capacity (limited machines)</td></tr>
+<tr><td>Public healthcare</td><td>Free, high-quality care for everyone</td><td>Limited hospitals, doctors, equipment, so aid is targeted at lower-income groups</td></tr>
+<tr><td>Commute</td><td>Shortest travel time</td><td>Fixed origin and destination; choose among routes</td></tr>
+<tr><td>Ramu’s stall, farm problem</td><td>See <a href="#problems">Worked problems</a></td><td>Budget; water and a minimum acreage</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Scarcity inside a data project</h3>
+<ul>
+<li>With unlimited computing power accuracy could be very high, but it would cost a lot. Real projects negotiate: reduce data quality or size, or settle for an accuracy the client accepts.</li>
+<li>If the client is happy with <b>95%</b>, you run on what you have. If they demand <b>99%</b>, you need more resources (for example a different GPU). <span class="src l">Live 1</span></li>
+<li>A company may aim to maximize utility, minimize cost or increase savings, and uses mathematical modelling such as cost-benefit analysis to pick the option closest to that objective. <span class="src v">Video 2</span></li>
+</ul>
+<div class="callout key"><p><b class="lead-in">Key idea.</b> Scarcity is a <em>constraint</em>. “Economics is about money” is a myth: the thing being allocated can be money, time, supply or compute.</p></div>
+</section>
+
+<section id="scale">
+<h2>Micro, macro, and economics vs economy</h2>
+<div class="cols">
+<div class="card"><h3>Microeconomics (bottom-up)</h3>
+<p>From Greek “micro”, small. Individual consumers, businesses, workers and their financial decisions. Think zooming in with a camera lens, or one tree in a forest.</p>
+<ul>
+<li>IPL franchises want the best players, but squad size and budget cap what they can buy.</li>
+<li>A person who works more has less leisure time.</li>
+<li>Effect of tariffs or supply disruption on consumer behaviour and businesses.</li>
+<li>One company’s data: Swiggy’s recommendations from your order history, Ola’s surge pricing, TCS, a single shop’s sales in one town.</li>
+</ul></div>
+<div class="card"><h3>Macroeconomics (top-down)</h3>
+<p>From Greek “macro”, large. The economy as a whole. Think zooming out, or the health of the whole forest.</p>
+<ul>
+<li>GDP, inflation, unemployment.</li>
+<li>Effect of tariffs or geopolitical tension on a country’s inflation, GDP and employment.</li>
+<li>A government giving education more budget and infrastructure less; steering the economy with taxes.</li>
+<li>Successful UPI transactions per day across India.</li>
+</ul></div>
+</div>
+<ul>
+<li>They are <b>interconnected</b>, not separate subjects. <b>Constrained optimization</b> appears in both, and the decision-maker must choose the best option within the constraints.</li>
+<li>BDM focuses on <b>microeconomics</b>, since you will mostly solve a company’s problem. Macro is mainly about policy-level decisions. <span class="src l">Live 2</span></li>
+<li>Households sell their labour to firms and earn money; firms depend on those people to produce what they sell. <span class="src v">Video 2</span></li>
+</ul>
+
+<h3>Economics vs economy</h3>
+<div class="scroll">
+<table>
+<thead><tr><th></th><th>Economics</th><th>Economy</th></tr></thead>
+<tbody>
+<tr><td>What it is</td><td>The theory: models, assumptions, optimization methods</td><td>The live system running in the real world</td></tr>
+<tr><td>Analogy</td><td>Code tested in your local environment</td><td>The same system pushed to production</td></tr>
+<tr><td>UPI example</td><td>Early models of a digital payments platform, tested offline</td><td>Once live, real money flows, errors and failures show up and the assumptions get tested</td></tr>
+</tbody>
+</table>
+</div>
+<p><span class="src l">Live 1</span></p>
+</section>
+
+<section id="utility">
+<h2>Utility and marginal thinking</h2>
+<p><span class="src v">Video 2</span> Economics is rooted in a few fundamental ideas: scarcity, utility, and marginal thinking.</p>
+<div class="callout flag"><p><b class="lead-in">Check this.</b> Video 2 first lists the foundations as “scarcity, utility and marginality”, but later introduces the third as “rationality”. Both ideas appear in the lecture, so I cover them under <a href="#utility">Utility</a> and <a href="#choice">Rational choice</a>.</p></div>
+
+<div class="callout def"><p><b class="lead-in">Definition.</b> <b>Utility</b> is the satisfaction a consumer gets from consuming goods or services. It influences economic decisions and differs between people: two people who buy the same coat do not get equal utility. Someone in a cold climate who wears it often gets more than someone in a warm climate who wears it rarely.</p></div>
+
+<h3>Marginality and marginal utility</h3>
+<ul>
+<li><b>Marginality:</b> people rarely make economic decisions all in one go. They decide bit by bit.</li>
+<li><b>Marginal utility (MU):</b> the extra satisfaction from consuming <em>one more unit</em>.</li>
+<li><b>Law of diminishing marginal utility:</b> as consumption rises, the MU of each extra unit falls, and it can turn <b>negative</b> if you overconsume.</li>
+</ul>
+<div class="callout eg"><p><b class="lead-in">Example.</b> The first ice cream (or the first slice of pizza when you are hungry) gives the most pleasure. The second gives less, because you have tasted it or feel full. Keep going and satisfaction goes below zero.</p></div>
+
+<figure class="fig">
+<svg viewBox="0 0 720 312" role="img" aria-label="Marginal utility falls with each ice cream and eventually becomes negative">
+<rect x="70" y="170" width="620" height="100" fill="var(--redsoft)" opacity=".6"/>
+<path class="axis" d="M70,20 V270"/><path class="axis" d="M70,170 H690"/>
+<text class="sm" x="62" y="174" text-anchor="end">0</text>
+<polyline class="curve" points="130,45 230,85 330,120 430,150 530,168 630,215"/>
+<g class="dot"><circle cx="130" cy="45" r="4.5"/><circle cx="230" cy="85" r="4.5"/><circle cx="330" cy="120" r="4.5"/><circle cx="430" cy="150" r="4.5"/><circle cx="530" cy="168" r="4.5"/><circle cx="630" cy="215" r="4.5"/></g>
+<g class="sm" text-anchor="middle"><text class="sm" x="130" y="288">1st</text><text class="sm" x="230" y="288">2nd</text><text class="sm" x="330" y="288">3rd</text><text class="sm" x="430" y="288">4th</text><text class="sm" x="530" y="288">5th</text><text class="sm" x="630" y="288">6th</text></g>
+<text class="t2" x="146" y="40">greatest pleasure</text>
+<text class="t2" x="606" y="244" text-anchor="end">overconsumption: negative utility</text>
+<text class="sm" x="380" y="306" text-anchor="middle">Ice creams consumed</text>
+<text class="sm" transform="rotate(-90)" x="-150" y="22" text-anchor="middle">Marginal utility</text>
+</svg>
+<figcaption>Shape of diminishing marginal utility. The lecture gives no numbers, so this is qualitative. <span class="src v">Video 2</span></figcaption>
+</figure>
+
+<h3>Assumptions behind the law</h3>
+<ul>
+<li>Items consumed are identical (the same ice cream each time).</li>
+<li>Units are consumed quickly, with few breaks.</li>
+<li>The consumer is rational.</li>
+<li>Items can be measured.</li>
+<li>Taste stays constant.</li>
+<li>Units are neither too big nor too small.</li>
+</ul>
+<p>The lecturer said he was listing “only a few”, so this may not be the full set.</p>
+
+<h3>Why it matters for pricing</h3>
+<div class="callout eg"><p><b class="lead-in">Backpack store.</b> One backpack costs ₹300, two cost ₹550, three cost ₹750. Everyone who wants a backpack needs at least one, so the <b>first is priced highest</b>. Few buyers want three even at a good deal. Because marginal utility drops with each extra unit, the store lowers the per-unit price to persuade people to buy more. Keeping the price flat would let diminishing marginal utility stop them buying.</p></div>
+
+<figure class="fig">
+<svg viewBox="0 0 640 296" role="img" aria-label="Bar chart of total price for one, two and three backpacks">
+<path class="axis" d="M50,240 H610"/>
+<rect class="boxb" x="90" y="156" width="100" height="84"/><rect class="boxb" x="270" y="86" width="100" height="154"/><rect class="boxb" x="450" y="30" width="100" height="210"/>
+<g text-anchor="middle"><text class="b" x="140" y="148">₹300</text><text class="b" x="320" y="78">₹550</text><text class="b" x="500" y="22">₹750</text>
+<text class="t2" x="140" y="260">1 backpack</text><text class="t2" x="320" y="260">2 backpacks</text><text class="t2" x="500" y="260">3 backpacks</text>
+<text class="sm" x="140" y="280">₹300 each</text><text class="sm" x="320" y="280">₹275 each</text><text class="sm" x="500" y="280">₹250 each</text></g>
+</svg>
+<figcaption>Total prices are from the lecture. Per-unit prices (₹300, ₹275, ₹250) are my arithmetic. <span class="src v">Video 2</span><span class="src me">My addition</span></figcaption>
+</figure>
+<p><span class="src me">My addition</span> The extra cost of the second backpack is ₹250 (550 − 300) and of the third is ₹200 (750 − 550): each additional unit is priced lower.</p>
+
+<h3>Marginal utility equals marginal cost</h3>
+<p>The lecture ends this topic by noting that as quantity rises, marginal utility falls while marginal cost rises. Where the two meet, the customer gets no more satisfaction from additional consumption. Problems on this were promised for the live sessions, so the detail is not covered in the recordings. <span class="src v">Video 2</span></p>
+</section>
+
+<section id="choice">
+<h2>Rational choice, opportunity cost, specialization</h2>
+<h3>Rationality and cost-benefit analysis</h3>
+<ul>
+<li>People are “rational animals”: decisions mostly follow a thought process, although impulse buying exists.</li>
+<li>Individuals and businesses choose when <b>benefits outweigh costs</b>, and may not choose when costs outweigh benefits.</li>
+<li>Organizations often score options on weighted criteria (price, product quality, service quality, brand image) and pick the highest rating. Week 3 returns to this.</li>
+</ul>
+<h3>When the rule bends: few alternatives</h3>
+<ul>
+<li>In <b>B2C</b> there are many alternatives, so <b>switching costs</b> are low and customers can move brands easily.</li>
+<li>In <b>B2B</b>, or under a monopoly, alternatives are few and switching costs are high, so choices do not follow the simple cost-benefit rule as neatly.</li>
+</ul>
+
+<h3>Opportunity cost</h3>
+<div class="callout def"><p><b class="lead-in">Definition.</b> When you make one choice you give up the others. The cost associated with those lost opportunities is the <b>opportunity cost</b>. A quote credited to Dan Ariely: every time you spend money on something, you cannot spend it on something else.</p></div>
+<div class="callout eg"><p><b class="lead-in">Groceries.</b> A nearby shop sells at MRP; a supermarket is a 15 to 20 minute drive away.</p>
+<ul><li>Buy nearby: the extra money you pay could have been used elsewhere.</li><li>Drive to the supermarket: the time spent could have been used elsewhere.</li></ul>
+<p>Which is better is a <b>subjective</b> cost-benefit judgement. One person values time; another enjoys the discounts, variety and ambience.</p></div>
+<ul>
+<li>Spending 150 hours preparing and recording lectures, or ₹1,000 on a movie, each has an opportunity cost.</li>
+<li><b>Produce vs outsource:</b> producing costs time and resources that could go elsewhere; outsourcing costs money that could go elsewhere. A firm decides by modelling against its objective.</li>
+<li>Even attending a session has an opportunity cost: the time you could have spent on something else. <span class="src l">Live 2</span></li>
+</ul>
+
+<h3>Specialization and division of labour</h3>
+<p>People earn money by specializing in particular tasks (farming, nursing, making furniture). This is the <b>division of labour</b>, and it underlies the four economic sectors in <a href="#production">Production</a>. <span class="src v">Video 2</span></p>
+</section>
+
+<section id="systems">
+<h2>Economic systems</h2>
+<p>Every economy has to answer the same questions (what, when and how to produce), but who answers them differs. <span class="src l">Live 2</span></p>
+
+<figure class="fig">
+<svg viewBox="0 0 760 232" role="img" aria-label="Spectrum from command economy through mixed economy to free market economy">
+<rect class="boxr" x="20" y="64" width="240" height="34"/><rect class="boxa" x="260" y="64" width="240" height="34"/><rect class="boxb" x="500" y="64" width="240" height="34"/>
+<text class="b" x="140" y="86" text-anchor="middle">Command / socialist</text><text class="b" x="380" y="86" text-anchor="middle">Mixed</text><text class="b" x="620" y="86" text-anchor="middle">Free market / capitalist</text>
+<text class="sm" x="20" y="48">100% government control</text><text class="sm" x="740" y="48" text-anchor="end">100% owner and management decisions</text>
+<g text-anchor="middle">
+<text class="t2" x="140" y="126">Central authorities decide</text><text class="t2" x="140" y="144">what, when and how to produce</text><text class="t2" x="140" y="162">Pre-1990s India (licence raj),</text><text class="t2" x="140" y="180">Soviet Union</text>
+<text class="t2" x="380" y="126">Free market plus government</text><text class="t2" x="380" y="144">rules and restrictions</text><text class="t2" x="380" y="162">Modern India: banking under RBI,</text><text class="t2" x="380" y="180">public sector firms</text>
+<text class="t2" x="620" y="126">Owners and managers decide</text><text class="t2" x="620" y="144">prices, offers, innovation</text><text class="t2" x="620" y="162">Board examples: TCS, Zomato,</text><text class="t2" x="620" y="180">crypto trading</text>
+</g>
+<text class="sm" x="380" y="216" text-anchor="middle">A mixed economy combines the two ends; modern India is the instructor’s example.</text>
+</svg>
+<figcaption>Three economic systems, redrawn from the whiteboard summary. <span class="src l">Live 2</span></figcaption>
+</figure>
+
+<h3>Command (socialist, centrally directed)</h3>
+<ul>
+<li>A <b>rule-based system</b>, like if/else code. Central authorities (government) decide what to produce, when and how, and you may not add a rule without permission.</li>
+<li>Rule example: if demand &gt; 100 kg a day, produce 50 more; else halt production. The same idea applies to T-shirts or other goods.</li>
+<li>Examples named: the Soviet Union, and India before the 1990s, when licences controlled production.</li>
+<li><b>Drawbacks</b> (from students and the instructor): rigid, little incentive to compete or innovate, the same service for everyone, and slow to adapt to change.</li>
+</ul>
+
+<h3>Free market (capitalist)</h3>
+<ul>
+<li>Companies and owners decide prices, discounts and innovation; the government has no role in these decisions, and competition forces firms to respond to each other.</li>
+<li>Reliance entered telecom in 2003 with free incoming calls; rivals had to cut prices to keep customers (the “3.5 million customers in one day” figure is the instructor’s claim).</li>
+<li>Swiggy personalising offers and refunds; a vegetable vendor cutting the price for bulk buys; phone makers setting prices by features.</li>
+</ul>
+
+<h3>Mixed economy</h3>
+<div class="callout eg"><p><b class="lead-in">Delivery in 10 minutes.</b> Firms competing to promise 10-minute delivery was a purely company decision, so a <b>capitalist</b> one. As accidents rose and delivery partners’ work-life balance suffered, the government (the Supreme Court, as the instructor told it) pushed for rules limiting such claims. That is a government “gate” on a free market, for social welfare, which makes the system <b>mixed</b>.</p></div>
+<ul>
+<li><b>Banking:</b> RBI controls interest rates and account-opening documents (KYC) to reduce fraud, keep the sector stable and protect customer trust. NPCI oversees UPI, and wallets need KYC.</li>
+<li><b>Public-sector firms</b> (BHEL, HAL, NTPC) have a government stake alongside management. The board uses an illustrative 40% government and 60% management split.</li>
+<li>India today is mixed: innovation is free, but regulated in places.</li>
+</ul>
+
+<figure class="fig">
+<svg viewBox="0 0 760 170" role="img" aria-label="A free market box with gates controlled by government regulation">
+<rect class="boxb" x="250" y="26" width="260" height="110" rx="6"/>
+<text class="b" x="380" y="76" text-anchor="middle">Free market</text><text class="t2" x="380" y="96" text-anchor="middle">firms and owners decide</text>
+<rect class="boxr" x="340" y="16" width="44" height="14"/><rect class="boxr" x="504" y="64" width="14" height="40"/><rect class="boxr" x="410" y="132" width="44" height="14"/><rect class="boxr" x="242" y="70" width="14" height="36"/>
+<text class="t2" x="396" y="14">gates controlled by government rules</text>
+<text class="sm" x="380" y="164" text-anchor="middle">Each closed gate is a regulation: KYC, RBI limits, delivery-time claims.</text>
+</svg>
+<figcaption>A mixed economy as a free market with regulated gates. <span class="src l">Live 2</span></figcaption>
+</figure>
+
+<div class="scroll">
+<table>
+<thead><tr><th>System</th><th>Who decides</th><th>Board example</th></tr></thead>
+<tbody>
+<tr><td>Command</td><td>100% government control</td><td>Pre-1990s India</td></tr>
+<tr><td>Free market</td><td>100% management or business owners</td><td>TCS, Zomato, crypto trading</td></tr>
+<tr><td>Mixed</td><td>Free market plus government restrictions or rules</td><td>Modern India</td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout flag"><p><b class="lead-in">Check this.</b> Zomato and Swiggy appear under “free market” on the board, yet in the transcript the same firms are described as operating with government oversight (delivery rules, wallet KYC). Treat the labels as illustrations, not strict classifications. The instructor also mentioned that crypto trading has no particular boundary; I have not checked that.</p></div>
+
+<h3>Open vs closed economy</h3>
+<div class="cols">
+<div class="card"><h3>Open</h3><p>Anyone can come in, invest and trade. Resources, technology and investment flow across the border.</p></div>
+<div class="card"><h3>Closed</h3><p>No exchange across the boundary. Everything is made inside, including raw materials.</p></div>
+</div>
+<ul>
+<li><b>Drawbacks of closed:</b> developing technology alone is slower and more expensive. Compare learning machine learning with no courses or videos, which could take years instead of months.</li>
+<li><b>Advantages</b> (raised by a student): self-sufficiency, immunity to global supply shocks (for example a closed strait), and technology kept secret. The instructor agreed there are advantages and disadvantages.</li>
+<li>India once restricted foreign investment; Walmart entered through acquiring Flipkart, as the instructor recounted.</li>
+</ul>
+<p>The transcript names a closed-economy example, but the country name is garbled, so I have left it out.</p>
+</section>
+
+<section id="social">
+<h2>Economics as a social science</h2>
+<figure class="fig">
+<svg viewBox="0 0 700 232" role="img" aria-label="Natural science gives the same result everywhere, social science results scatter">
+<text class="b" x="170" y="16" text-anchor="middle">Natural science</text><text class="b" x="515" y="16" text-anchor="middle">Social science</text>
+<path class="axis" d="M40,30 V190 H300"/><polyline class="curve" points="40,190 295,34"/>
+<path class="axis" d="M385,30 V190 H650"/>
+<g class="dotb"><circle cx="410" cy="70" r="4"/><circle cx="440" cy="150" r="4"/><circle cx="470" cy="95" r="4"/><circle cx="500" cy="60" r="4"/><circle cx="520" cy="165" r="4"/><circle cx="545" cy="110" r="4"/><circle cx="575" cy="75" r="4"/><circle cx="600" cy="140" r="4"/><circle cx="625" cy="95" r="4"/><circle cx="455" cy="45" r="4"/><circle cx="490" cy="130" r="4"/><circle cx="530" cy="50" r="4"/><circle cx="560" cy="170" r="4"/><circle cx="590" cy="100" r="4"/><circle cx="615" cy="55" r="4"/><circle cx="420" cy="115" r="4"/><circle cx="480" cy="175" r="4"/><circle cx="510" cy="90" r="4"/><circle cx="550" cy="140" r="4"/><circle cx="580" cy="50" r="4"/><circle cx="605" cy="170" r="4"/><circle cx="635" cy="130" r="4"/></g>
+<text class="t2" x="170" y="214" text-anchor="middle">1 + 1 = 2 in Chennai, Paris, anywhere</text><text class="t2" x="515" y="214" text-anchor="middle">survey answers vary by place, age, mindset</text>
+</svg>
+<figcaption>Deterministic results versus scattered survey responses. <span class="src l">Live 2</span></figcaption>
+</figure>
+<ul>
+<li>In <b>science</b>, results are <b>deterministic</b>: 1 + 1 = 2 everywhere, and the acceleration due to gravity is 9.8 m/s² regardless of location.</li>
+<li>In <b>social science</b>, responses change with geography, age, gender and mindset. Ask 61 students for an example of a free market and you get different answers. Rice is grown differently in Tamil Nadu, Punjab, Assam and Gujarat.</li>
+<li>That is why economics has no single concrete answer to many questions. The <b>optimization</b> part, allocating resources under constraints, is the more “purely scientific” part.</li>
+</ul>
+</section>
+
+<section id="production">
+<h2>Production: chain, outputs, factors, sectors</h2>
+<h3>Three elements of economics</h3>
+<p>Production, distribution and consumption. Economics studies how to optimize this chain when raw material is limited but demand must still be met. <span class="src l">Live 2</span></p>
+
+<figure class="fig">
+<svg viewBox="0 0 760 175" role="img" aria-label="Toothbrush chain from raw material through production, delivery, vendors, shop to customers">
+<defs><marker id="ar5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker></defs>
+<rect class="box" x="8" y="62" width="108" height="46" rx="6"/><text class="t2" x="62" y="89" text-anchor="middle">Raw material</text>
+<rect class="boxt" x="136" y="62" width="108" height="46" rx="6"/><text class="t2" x="190" y="89" text-anchor="middle">Production</text>
+<rect class="boxb" x="264" y="62" width="108" height="46" rx="6"/><text class="t2" x="318" y="89" text-anchor="middle">Delivery</text>
+<rect class="boxb" x="392" y="62" width="108" height="46" rx="6"/><text class="t2" x="446" y="82" text-anchor="middle">Vendors /</text><text class="t2" x="446" y="98" text-anchor="middle">suppliers</text>
+<rect class="boxb" x="520" y="62" width="108" height="46" rx="6"/><text class="t2" x="574" y="89" text-anchor="middle">Shop</text>
+<rect class="boxa" x="648" y="62" width="104" height="46" rx="6"/><text class="t2" x="700" y="89" text-anchor="middle">Customers</text>
+<path class="ln" d="M118,85 H132" marker-end="url(#ar5)"/><path class="ln" d="M246,85 H260" marker-end="url(#ar5)"/><path class="ln" d="M374,85 H388" marker-end="url(#ar5)"/><path class="ln" d="M502,85 H516" marker-end="url(#ar5)"/><path class="ln" d="M630,85 H644" marker-end="url(#ar5)"/>
+<path class="ln" d="M8,52 V44 H244 V52"/><path class="ln" d="M264,52 V44 H628 V52"/><path class="ln" d="M648,52 V44 H752 V52"/>
+<text class="b" x="126" y="36" text-anchor="middle">Production</text><text class="b" x="446" y="36" text-anchor="middle">Distribution</text><text class="b" x="700" y="36" text-anchor="middle">Consumption</text>
+<text class="sm" x="380" y="150" text-anchor="middle">Example: Oral-B making toothbrushes. Economics asks how to supply enough with limited raw material.</text>
+</svg>
+<figcaption>Production, distribution and consumption (toothbrush case). <span class="src l">Live 2</span></figcaption>
+</figure>
+
+<div class="callout eg"><p><b class="lead-in">Toothbrush case.</b> Ancestors cleaned teeth with neem sticks. As technology and travel changed, <b>demand created innovation</b>: a normal toothbrush in the 1990s, many shapes (zigzag, flexible) in the 2000s, electric ones in the 21st century. Firms then confirm what customers need by taking continuous <b>feedback</b>. A company that sticks to traditional ways risks losing customers, which is previewed by an IBM case study to come.</p></div>
+<ul>
+<li>The study of the production-to-consumption chain is economics; the chain in operation is the economy. Within it you look at <b>relationships between variables</b>, for example how raw material changes over time (steadily, non-linearly, or fluctuating).</li>
+<li><b>Resource allocation in practice:</b> during a fuel shortage the instructor noticed no queues in a large city but closed pumps in a smaller town. His reading: the government prioritised big cities, where industry and logistics cannot stop and alternatives are few, while smaller places could use bicycles or firewood. This is his observation, not a documented policy.</li>
+</ul>
+
+<h3>The three central problems</h3>
+<ol>
+<li><b>What to produce</b>: what does the market demand?</li>
+<li><b>How to produce</b>: which resources and processes (for example, how to produce biodiesel)?</li>
+<li><b>For whom to produce</b>: who are the potential customers? Many startups build a product without knowing where to sell it.</li>
+</ol>
+
+<h3>Market, production and outputs</h3>
+<ul>
+<li>A <b>market</b> is where you, me and others exchange goods and services, to fulfil needs or to earn a profit. Payment can be money, but it can also be a swap of goods.</li>
+<li><b>Production</b> turns raw material into a usable form: cotton into T-shirts, shirts or sarees; tea leaves into tea.</li>
+<li>Outcomes are <b>goods</b> (visible, tangible: you can see, touch and store them) or <b>services</b> (invisible, intangible: you can only experience them). A milkman supplies milk (a good) and the delivery (a service).</li>
+</ul>
+
+<h3>Factors of production</h3>
+<figure class="fig">
+<svg viewBox="0 0 760 348" role="img" aria-label="Four factors of production: land, labour, physical capital split into fixed and working capital, and entrepreneurship">
+<rect class="boxb" x="280" y="8" width="200" height="40" rx="8"/><text class="b" x="380" y="33" text-anchor="middle">Factors of production</text>
+<path class="ln" d="M380,48 V74 M85,74 H645 M85,74 V98 M255,74 V98 M435,74 V98 M645,74 V98"/>
+<rect class="boxt" x="10" y="98" width="150" height="44" rx="8"/><text class="b" x="85" y="125" text-anchor="middle">Land</text>
+<rect class="boxt" x="180" y="98" width="150" height="44" rx="8"/><text class="b" x="255" y="125" text-anchor="middle">Labour</text>
+<rect class="boxt" x="350" y="98" width="170" height="44" rx="8"/><text class="b" x="435" y="125" text-anchor="middle">Physical capital</text>
+<rect class="boxt" x="540" y="98" width="210" height="44" rx="8"/><text class="b" x="645" y="116" text-anchor="middle">Entrepreneurship /</text><text class="b" x="645" y="132" text-anchor="middle">human capital</text>
+<g text-anchor="middle"><text class="sm" x="85" y="162">natural resources</text><text class="sm" x="85" y="177">and the site</text>
+<text class="sm" x="255" y="162">people available to</text><text class="sm" x="255" y="177">work, with skills</text>
+<text class="sm" x="645" y="162">combine and manage the rest:</text><text class="sm" x="645" y="177">CEOs, managers, R&amp;D heads,</text><text class="sm" x="645" y="192">data scientists</text></g>
+<path class="ln" d="M435,144 V172 M335,172 H535 M335,172 V204 M535,172 V204"/>
+<rect class="boxa" x="240" y="204" width="190" height="106" rx="8"/>
+<text class="b" x="335" y="226" text-anchor="middle">Fixed capital</text><text class="t2" x="335" y="246" text-anchor="middle">long-term investment</text><text class="sm" x="335" y="266" text-anchor="middle">buildings, machines,</text><text class="sm" x="335" y="281" text-anchor="middle">assembly line, generators,</text><text class="sm" x="335" y="296" text-anchor="middle">leased premises</text>
+<rect class="boxa" x="440" y="204" width="190" height="106" rx="8"/>
+<text class="b" x="535" y="226" text-anchor="middle">Working capital</text><text class="t2" x="535" y="246" text-anchor="middle">short-term, monthly</text><text class="sm" x="535" y="266" text-anchor="middle">salaries, utility bills,</text><text class="sm" x="535" y="281" text-anchor="middle">subscriptions,</text><text class="sm" x="535" y="296" text-anchor="middle">replacing worn tools</text>
+<text class="sm" x="380" y="337" text-anchor="middle">Land + labour + physical capital are combined and managed by entrepreneurship, giving goods and services.</text>
+</svg>
+<figcaption>The four factors of production, with capital split into fixed and working. <span class="src v">Video 1</span><span class="src l">Live 2</span></figcaption>
+</figure>
+<ul>
+<li><b>Land:</b> scarce natural resources such as oil or sea (Video 1); also the site or leased premises (Live 2).</li>
+<li><b>Labour:</b> people available to work, with knowledge and intelligence. In economics “labour” is simply the standard term for workers.</li>
+<li><b>Capital:</b> goods used to produce other goods, such as buildings and machinery (Video 1). Live 2 splits it into fixed (long-term) and working (short-term) capital.</li>
+<li><b>Enterprise / human capital:</b> the entrepreneurs and managers who combine and run the other three.</li>
+</ul>
+
+<h3>Four economic sectors</h3>
+<figure class="fig">
+<svg viewBox="0 0 760 232" role="img" aria-label="Stacked bar of approximate GDP shares for primary, secondary and tertiary sectors">
+<rect x="60" y="30" width="108.8" height="46" class="boxr"/><rect x="168.8" y="30" width="172.8" height="46" class="boxa"/><rect x="341.6" y="30" width="345.6" height="46" class="boxb"/>
+<text class="b" x="114" y="59" text-anchor="middle">17%</text><text class="b" x="255" y="59" text-anchor="middle">27%</text><text class="b" x="514" y="59" text-anchor="middle">54%</text>
+<rect x="20" y="108" width="11" height="11" class="boxr"/><rect x="270" y="108" width="11" height="11" class="boxa"/><rect x="520" y="108" width="11" height="11" class="boxb"/>
+<text class="b t2" x="38" y="118">Primary</text><text class="t2" x="38" y="136">extracts raw materials</text><text class="sm" x="38" y="152">farming, fishing, mining, forestry</text><text class="sm" x="38" y="168">“red collar”</text>
+<text class="b t2" x="288" y="118">Secondary</text><text class="t2" x="288" y="136">turns raw material into goods</text><text class="sm" x="288" y="152">about 14 of the 27 points is</text><text class="sm" x="288" y="168">manufacturing; “blue collar”</text>
+<text class="b t2" x="538" y="118">Tertiary</text><text class="t2" x="538" y="136">bridges factory and consumer</text><text class="sm" x="538" y="152">logistics, supply chain, quality,</text><text class="sm" x="538" y="168">services; “white collar”</text>
+<text class="sm" x="20" y="206">Quaternary: R&amp;D, innovation, strategic decisions (no GDP share given).</text>
+<text class="sm" x="20" y="222">Shares are the instructor’s approximations, not exact data.</text>
+</svg>
+<figcaption>Approximate share of GDP by sector, as stated in the live session. <span class="src l">Live 2</span></figcaption>
+</figure>
+
+<div class="scroll">
+<table>
+<thead><tr><th>Sector</th><th>Video 2 version</th><th>Live 2 version (tea-making analogy)</th></tr></thead>
+<tbody>
+<tr><td>Primary</td><td>Extract raw materials from nature: fishing, farming, mining, forestry</td><td>Collect raw materials and natural resources (tea leaves, milk, sugar); about 17% of GDP</td></tr>
+<tr><td>Secondary</td><td>Convert raw material into finished products; vital utilities such as electricity and fuel</td><td>The production activity (mixing, heating); about 27% of GDP, of which about 14 points is manufacturing</td></tr>
+<tr><td>Tertiary</td><td>Service sector: finance, IT, retail, entertainment, travel, hospitality</td><td>Serving the finished product: logistics, supply chain, quality management; about 54% of GDP</td></tr>
+<tr><td>Quaternary</td><td>Scientific R&amp;D, education, public sector</td><td>R&amp;D and innovation, plus strategic decision-making by senior authorities</td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout flag"><p><b class="lead-in">Check this.</b> The shares add up to 98%, the instructor said they were approximate (“not exact data as of today”), and the collar-colour labels are his usage. Textbooks differ on these. At the end of the sector discussion the transcript hints at one more level beyond quaternary, but it is garbled, so I have not included it.</p></div>
+<ul>
+<li>A student asked whether it matters that one sector dominates. The instructor’s answer: if the tertiary sector (for example logistics, which needs petrol and diesel) is blocked, the effects are national, since it carries so much of the economy.</li>
+<li>Service-based firms face more competition. A unique manufactured product can give something close to a monopoly. It is not simply good or bad: it depends on the products and conditions.</li>
+</ul>
+</section>
+
+<section id="problems">
+<h2>Worked problems</h2>
+<p>Both problems follow the same recipe: pick the variables, write the constraint equation, fix what is given, and solve for what is left. <span class="src l">Live 2</span></p>
+
+<h3>Problem 1: Ramu’s budget</h3>
+<div class="callout eg"><p><b class="lead-in">Given.</b> Ramu sells tea (T) and filter coffee (F). He spends ₹1,200 a day on raw materials.</p>
+<ul><li>Tea: costs ₹6 a cup to make, earns ₹4 profit a cup.</li><li>Filter coffee: costs ₹12 a cup to make, earns ₹6 profit a cup.</li></ul>
+<p>A campus workshop orders <b>40 filter coffees</b>. He can take the order or refuse it.</p></div>
+<div class="calc">Constraint:        6T + 12F = 1200
+
+Order of 40 coffees:  12 x 40 = 480  (spent on coffee)
+Left for tea:         1200 - 480 = 720
+Teas he can make:     720 / 6 = 120 cups
+
+Profit:               4 x 120 + 6 x 40
+                    = 480 + 240
+                    = Rs 720
+
+Check:                6 x 120 + 12 x 40 = 720 + 480 = 1200  (budget fully used)</div>
+<p>The whiteboard writes the tea variable as C in the middle of the working, but it is the same quantity (tea). I use T throughout.</p>
+<p><span class="src me">My addition</span> Each coffee costs twice what a tea costs (12 ÷ 6), so every extra coffee means two fewer teas. That 2-for-1 swap is the <b>trade-off</b> (opportunity cost) built into the constraint.</p>
+
+<figure class="fig">
+<svg viewBox="0 0 700 322" role="img" aria-label="Budget line for Ramu: teas against filter coffees, with the chosen point at 40 coffees and 120 teas">
+<path class="axis" d="M70,270 H640"/><path class="axis" d="M70,270 V30"/>
+<path class="curve" d="M70,50 L620,270"/>
+<path class="dash" d="M70,138 H290 M290,138 V270"/>
+<circle class="dot" cx="290" cy="138" r="5"/><circle cx="290" cy="182" r="5" class="dotb"/><circle cx="290" cy="105" r="5" class="dotb"/>
+<text class="t2" x="302" y="128">(40, 120): budget fully used</text>
+<text class="t2" x="302" y="100">(40, 150): needs more resources</text>
+<text class="t2" x="278" y="186" text-anchor="end">(40, 80): budget under-used</text>
+<g class="sm" text-anchor="middle"><text class="sm" x="70" y="288">0</text><text class="sm" x="290" y="288">40</text><text class="sm" x="620" y="288">100</text></g>
+<g class="sm" text-anchor="end"><text class="sm" x="62" y="274">0</text><text class="sm" x="62" y="142">120</text><text class="sm" x="62" y="54">200</text></g>
+<text class="sm" x="345" y="312" text-anchor="middle">Cups of filter coffee</text><text class="sm" transform="rotate(-90)" x="-150" y="22" text-anchor="middle">Cups of tea</text>
+</svg>
+<figcaption>The line is 6T + 12F = 1200. The 200-tea intercept is on the whiteboard; the 100-coffee intercept is my arithmetic (1200 ÷ 12). The board sketches a bowed curve, but this particular constraint is a straight line. <span class="src l">Live 2</span><span class="src me">My addition</span></figcaption>
+</figure>
+
+<div class="callout key"><p><b class="lead-in">Key idea (preview of the PPF).</b> <b>On</b> the line: resources fully used, efficient. <b>Inside</b> it: resources under-used, so efficiency and profit fall (the “undershooting” case). <b>Outside</b> it: you would need more resources such as labour or machines (“overshooting”). The PPF gets its own session next week.</p></div>
+<p>A student asked what happens if regular tea demand is higher than the budget allows. The instructor: serve what the constraint allows (some customers may be missed), and if the demand is persistent, expand the resources (more labour, machines or budget). Leaving the budget unused wastes stock such as milk.</p>
+
+<h3>Problem 2: the organic farm</h3>
+<div class="callout eg"><p><b class="lead-in">Given.</b> A farm grows basmati rice (B acres) and wheat (W acres).</p>
+<ul><li>Profit: ₹15,000 per acre of basmati, ₹8,000 per acre of wheat.</li>
+<li>Water: a government limit of 10,000 litres a day from the tube well. Basmati uses 500 L per acre a day, wheat 200 L per acre a day.</li>
+<li>Soil: to maintain fertility (nitrogen), at least <b>5 acres of basmati</b> must be grown (mixed farming).</li></ul>
+<p>Find how many acres of wheat fit, and the total profit.</p></div>
+<div class="calc">Constraint 1 (water):  500 B + 200 W = 10,000
+Constraint 2 (soil):   B = 5 acres (minimum, taken as fixed)
+
+Water used by basmati: 500 x 5 = 2,500 L
+Water left:            10,000 - 2,500 = 7,500 L
+Wheat acres:           7,500 / 200 = 37.5 acres
+
+Profit:                15,000 x 5 + 8,000 x 37.5
+                     = 75,000 + 3,00,000
+                     = Rs 3,75,000  (Rs 3.75 lakh)</div>
+
+<figure class="fig">
+<svg viewBox="0 0 680 332" role="img" aria-label="Water constraint for the farm: wheat acres against basmati acres with the optimal point at 5 and 37.5">
+<polygon points="200,92.5 590,280 200,280" fill="var(--tealsoft)" stroke="none"/>
+<path class="axis" d="M70,280 H620"/><path class="axis" d="M70,280 V22"/>
+<path class="curve" d="M70,30 L590,280"/>
+<path class="dash" d="M200,280 V30 M70,92.5 H200"/>
+<circle class="dot" cx="200" cy="92.5" r="5"/>
+<text class="t2" x="212" y="84">(5, 37.5): optimal</text>
+<text class="t2" x="206" y="46">B = 5 (minimum)</text>
+<text class="t2" x="400" y="150">water limit: 500B + 200W = 10,000</text>
+<text class="t2" x="215" y="266">feasible: B at least 5 and water within limit</text>
+<g class="sm" text-anchor="middle"><text class="sm" x="70" y="298">0</text><text class="sm" x="200" y="298">5</text><text class="sm" x="590" y="298">20</text></g>
+<g class="sm" text-anchor="end"><text class="sm" x="62" y="284">0</text><text class="sm" x="62" y="96">37.5</text><text class="sm" x="62" y="34">50</text></g>
+<text class="sm" x="345" y="322" text-anchor="middle">Acres of basmati rice (B)</text><text class="sm" transform="rotate(-90)" x="-150" y="22" text-anchor="middle">Acres of wheat (W)</text>
+</svg>
+<figcaption>Water constraint line with the minimum-basmati line. The intercepts (20 and 50 acres) are my arithmetic. <span class="src l">Live 2</span><span class="src me">My addition</span></figcaption>
+</figure>
+
+<div class="callout flag"><p><b class="lead-in">Check this.</b> The problem never states the farm’s total land, so I do not know whether 5 + 37.5 = 42.5 acres actually fits. The lecture solves only the water and soil constraints.</p></div>
+<p><span class="src me">My addition</span> <b>Why using exactly 5 acres of basmati is the best split.</b> Profit per litre of water is ₹30 for basmati (15,000 ÷ 500) and ₹40 for wheat (8,000 ÷ 200). Wheat earns more per litre, so once the minimum basmati is met, the remaining water should go to wheat.</p>
+
+<h3>Practice variants (my own)</h3>
+<details class="q"><summary>Ramu: the workshop orders 60 filter coffees instead</summary>
+<p>Coffee cost: 12 × 60 = 720. Left for tea: 1200 − 720 = 480, so 480 ÷ 6 = 80 teas. Profit: 4 × 80 + 6 × 60 = 320 + 360 = <b>₹680</b>.</p></details>
+<details class="q"><summary>Farm: water limit is 12,000 L and the minimum basmati is 4 acres</summary>
+<p>Basmati water: 500 × 4 = 2,000 L. Left: 10,000 L, so wheat = 10,000 ÷ 200 = 50 acres. Profit: 15,000 × 4 + 8,000 × 50 = 60,000 + 4,00,000 = <b>₹4,60,000</b>.</p></details>
+</section>
+
+<section id="glossary">
+<h2>Glossary</h2>
+<dl class="gloss">
+<dt>Allocation</dt><dd>Deciding how to divide scarce resources among competing uses.</dd>
+<dt>Capital</dt><dd>Goods used to produce other goods. Fixed capital is long-term (buildings, machines); working capital is short-term (salaries, bills).</dd>
+<dt>Command economy</dt><dd>A rule-based system where central authorities decide what, when and how to produce.</dd>
+<dt>Constraint</dt><dd>A limit on what you can do (budget, time, water, compute).</dd>
+<dt>Demand</dt><dd>Desire backed by ability and willingness to pay.</dd>
+<dt>Desire</dt><dd>A want driven by emotion, which may lack affordability.</dd>
+<dt>Division of labour</dt><dd>People specializing in particular tasks to earn money.</dd>
+<dt>Economic good</dt><dd>A good that is scarce, so producing it uses scarce resources, even if the user does not pay.</dd>
+<dt>Economics</dt><dd>The science of constrained choices; allocation of scarce resources to meet unlimited wants. Also the theory side, as opposed to the economy.</dd>
+<dt>Economy</dt><dd>The real, running system of production and exchange.</dd>
+<dt>Elastic / inelastic</dt><dd>Elastic customers change behaviour when price or value changes; inelastic ones do not.</dd>
+<dt>Enterprise (entrepreneurship)</dt><dd>The factor that combines land, labour and capital to produce goods and services.</dd>
+<dt>Equilibrium</dt><dd>The point where what buyers will buy matches what sellers will supply (previewed; full treatment later).</dd>
+<dt>Free good</dt><dd>A good supplied in enough quantity to meet every want, such as air.</dd>
+<dt>Free market economy</dt><dd>Owners and businesses make the decisions; government has little role.</dd>
+<dt>Goods / services</dt><dd>Tangible, storable outputs / intangible outputs that are experienced.</dd>
+<dt>Law of diminishing marginal utility</dt><dd>As consumption rises, the satisfaction from each extra unit falls, and can turn negative.</dd>
+<dt>Macroeconomics / microeconomics</dt><dd>The economy as a whole (top-down) / individual consumers and businesses (bottom-up).</dd>
+<dt>Marginal utility</dt><dd>The extra satisfaction from one more unit.</dd>
+<dt>Mixed economy</dt><dd>A free market with government restrictions and rules.</dd>
+<dt>Need / want</dt><dd>Essential for survival / improves quality of life once needs are met.</dd>
+<dt>Objective function</dt><dd>The quantity you want to maximize or minimize.</dd>
+<dt>Open / closed economy</dt><dd>One where anyone can invest and trade / one with no exchange across its boundary.</dd>
+<dt>Opportunity cost</dt><dd>The cost of the opportunities you give up when you choose one option.</dd>
+<dt>Optimization</dt><dd>Choosing the best allocation given an objective and constraints.</dd>
+<dt>Production</dt><dd>Any activity that satisfies a human want; converting raw material into usable goods or services.</dd>
+<dt>Purchasing power</dt><dd>The ability to pay for what you want.</dd>
+<dt>Rationality</dt><dd>Making decisions by weighing costs against benefits.</dd>
+<dt>Scarcity</dt><dd>Short supply relative to wants. Kinds: demand-induced, supply-induced, structural.</dd>
+<dt>Switching cost</dt><dd>What it costs a customer to move to another supplier; high in B2B or monopolies.</dd>
+<dt>Trade-off</dt><dd>Giving up one thing to get another when resources are limited.</dd>
+<dt>Utility</dt><dd>Satisfaction a consumer gets from consuming goods or services.</dd>
+</dl>
+</section>
+
+<section id="check">
+<h2>Self-check</h2>
+<p>Try answering each aloud before opening it.</p>
+<details class="q"><summary>What is the difference between a want, a desire and demand?</summary><p>A want improves quality of life once needs are met. A desire is an emotion-driven want that may lack affordability. Demand is desire plus ability and willingness to pay.</p></details>
+<details class="q"><summary>Why would there be no economics if wants were finite?</summary><p>Resources would be enough to meet them, so no scarcity and no need to allocate carefully. Economics exists because wants are unlimited and resources are scarce.</p></details>
+<details class="q"><summary>Is free hospitalization a free good?</summary><p>No. It is an economic good, because scarce resources are used to provide it even though the patient does not pay.</p></details>
+<details class="q"><summary>Name the three kinds of scarcity with one example each.</summary><p>Demand-induced (population growth raises demand, supply unchanged), supply-induced (a fuel supply-chain disruption or crop failure, demand unchanged), structural (villages having less access to healthcare and services than tier-one cities).</p></details>
+<details class="q"><summary>What do data, machine learning and economics each contribute?</summary><p>Data: what is happening. ML: what will happen. Economics: why it is happening and what to do about it.</p></details>
+<details class="q"><summary>In Ramu’s stall, why did samosa sales fall?</summary><p>Inelastic customers kept buying coffee at the higher price, but with a fixed budget they traded off the samosa. The percentages are illustrative.</p></details>
+<details class="q"><summary>What two things does every optimization problem need?</summary><p>An objective function and constraints.</p></details>
+<details class="q"><summary>State the law of diminishing marginal utility and one business use.</summary><p>As you consume more, the extra satisfaction from each unit falls (and can go negative). Stores lower the per-unit price for bulk purchases to keep marginal utility, and sales, up.</p></details>
+<details class="q"><summary>Give an example of opportunity cost in the grocery case.</summary><p>Buying nearby: the extra money paid could have gone elsewhere. Driving to the supermarket: the time could have gone elsewhere.</p></details>
+<details class="q"><summary>Classify: a government licence for every product; a firm setting its own prices; banks regulated by RBI.</summary><p>Command; free market; mixed.</p></details>
+<details class="q"><summary>Ramu has ₹1,200, tea costs ₹6, coffee ₹12. After 40 coffees, how many teas?</summary><p>(1200 − 480) ÷ 6 = 120 teas; profit ₹720 at ₹4 and ₹6 per cup.</p></details>
+<details class="q"><summary>Name the four factors of production and the four sectors.</summary><p>Land, labour, physical capital, entrepreneurship. Primary, secondary, tertiary, quaternary.</p></details>
+</section>
+
+<section id="gaps">
+<h2>Gaps, ambiguities and things to verify</h2>
+<ul>
+<li><b>Transcript quality.</b> The live-session transcript is auto-generated, with garbled words and some wrong figures. I used the whiteboard PDFs to fix the numbers (₹1,200 budget, ₹720, ₹3.75 lakh; the transcript’s “$100” is an error) and the elastic/inelastic wording.</li>
+<li><b>Illustrative numbers.</b> The Ramu percentages, the 80/20 split, the 40/60 ownership split and the sector GDP shares are the instructor’s examples or approximations, not data. The “3.5 million customers in one day” claim for Reliance is his claim; I did not check it.</li>
+<li><b>Unclear in the sources.</b> The starting price of coffee at Ramu’s stall; the country given as a closed economy; the name of the government health scheme (the transcript mentions cover up to ₹5 lakh but the name is garbled); the instructor’s “fifth sector”.</li>
+<li><b>Books mentioned.</b> The instructor suggested Freakonomics, an introductory economics text from Tata McGraw-Hill and titles on principles of economics and microeconomics. I cannot search or check a catalogue, so these titles and authors could be wrong: verify before relying on them.</li>
+<li><b>Case narrations.</b> The 10-minute delivery rules, the bank collapse anecdote, Walmart and Flipkart, and the fuel-allocation observation are the instructor’s accounts; I have not independently checked them.</li>
+<li><b>Source disagreements.</b> Video 2 names the foundations as scarcity, utility and marginality in one place and rationality in another; the order of later weeks differs between Video 2 and the orientation; Video 2 mentions Prof. Arora introducing demand and supply, while the orientation lists him for finance.</li>
+<li><b>Handwriting.</b> The whiteboard pages are legible, but a few small marks (for example “Soft → 200” near the production-rule example, and a “4” and “2” beside the determinism graph) I could not interpret, so I left them out.</li>
+<li><b>Previewed, not yet covered.</b> The production possibility frontier, fixed, average and marginal cost, economic vs accounting profit, demand and supply, equilibrium and curve shifts, MU = MC problems, the IBM case, inventory (covered in the Sunday project session), and Excel. Treat only a preview as given.</li>
+<li><b>Not provided.</b> Slides, assessment dates and weightings. Dr. Chandel said his handwritten notes would be shared as a PDF; compare these notes with it when it arrives.</li>
+</ul>
+</section>
+
+<footer>
+<p>Prepared from the five uploaded files: two lecture transcripts, two handwritten live-session PDFs and the live-session transcript. Items tagged “My addition” are arithmetic or practice I added, not lecture content.</p>
+</footer>
+</main>
+</div>
+<script>
+(function(){var d=document.getElementById('tocd');if(d&&window.matchMedia('(min-width:1040px)').matches){d.open=true;}})();
+</script>
+</body>
+</html>
