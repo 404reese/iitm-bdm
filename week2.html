@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BDM Week 2 study notes: demand, supply, cost and choice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,450;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF6EF; --panel:#FFFFFF; --ink:#3A3530; --muted:#8A8070; --rule:#E3DBC6;
+  --demand:#6E8E66; --supply:#C2765A; --good:#527A6B; --warn:#B9872E;
+  --tint:#E9EFE2; --tint-warn:#FAF0D8; --tint-good:#E2EEE7; --grid:#EDE6D4;
+  --serif:"Fraunces", Georgia, "Times New Roman", serif;
+  --sans:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  color-scheme: light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#1C1A15; --panel:#242019; --ink:#EEE7D9; --muted:#AFA48F; --rule:#3C352A;
+    --demand:#9BC08F; --supply:#E0A085; --good:#8FC1AE; --warn:#E0B35C;
+    --tint:#28311F; --tint-warn:#3A2F18; --tint-good:#1F2F28; --grid:#2E2A20;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#1C1A15; --panel:#242019; --ink:#EEE7D9; --muted:#AFA48F; --rule:#3C352A;
+  --demand:#9BC08F; --supply:#E0A085; --good:#8FC1AE; --warn:#E0B35C;
+  --tint:#28311F; --tint-warn:#3A2F18; --tint-good:#1F2F28; --grid:#2E2A20;
+  color-scheme: dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 16px);scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:1.0625rem;line-height:1.65;letter-spacing:.1px;-webkit-font-smoothing:antialiased}
+a{color:var(--demand)}
+a:focus-visible,summary:focus-visible,button:focus-visible{outline:2px solid var(--demand);outline-offset:3px;border-radius:3px}
+
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;max-width:1180px;margin:0 auto;padding:0 28px}
+nav.toc{position:sticky;top:env(safe-area-inset-top,0px);align-self:start;max-height:100vh;overflow-y:auto;padding:36px 0 40px;font-family:var(--sans);font-size:.86rem;line-height:1.4}
+nav.toc h2{font-family:var(--sans);font-size:.95rem;margin:0 0 12px;font-weight:700}
+nav.toc ol{list-style:none;margin:0;padding:0}
+nav.toc li{margin:0}
+nav.toc a{display:block;padding:5px 0 5px 10px;border-left:2px solid var(--rule);color:var(--muted);text-decoration:none}
+nav.toc a:hover{color:var(--ink);border-left-color:var(--ink)}
+nav.toc .part{margin-top:14px;color:var(--ink);font-weight:600;padding-left:10px}
+.toc-mobile{display:none}
+
+main{min-width:0;padding:36px 0 96px;max-width:780px}
+header.hero{padding:8px 0 28px;border-bottom:1px solid var(--rule);margin-bottom:8px;display:grid;grid-template-columns:minmax(0,1fr) 200px;gap:28px;align-items:end}
+.hero h1{font-family:var(--serif);font-weight:450;font-style:italic;font-size:clamp(1.9rem,4vw,2.7rem);line-height:1.1;letter-spacing:-.01em;margin:0 0 14px}
+.hero p{margin:0;color:var(--muted);max-width:52ch}
+.hero svg{width:100%;height:auto;font-family:var(--sans)}
+
+h2,h3,h4{font-family:var(--serif);font-weight:600;line-height:1.25;letter-spacing:-.005em}
+section.part{margin-top:56px}
+section.part > h2.part-title{font-family:var(--sans);font-size:.95rem;font-weight:600;color:var(--muted);margin:0 0 4px}
+h2{font-size:1.6rem;margin:48px 0 10px;padding-bottom:.25em;border-bottom:1.5px solid var(--rule)}
+h3{font-size:1.2rem;margin:30px 0 8px}
+h4{font-size:1.05rem;margin:22px 0 6px}
+p{margin:0 0 14px;max-width:70ch}
+ul,ol{margin:0 0 16px;padding-left:1.3em;max-width:68ch}
+li{margin:4px 0}
+strong{font-weight:600}
+
+.summary{background:var(--panel);border:1px solid var(--rule);border-left:4px solid var(--ink);padding:14px 18px;margin:14px 0 20px;border-radius:2px 8px 8px 2px}
+.summary p:last-child,.summary ul:last-child{margin-bottom:0}
+.summary .lab{font-family:var(--sans);font-size:.8rem;font-weight:700;color:var(--muted);display:block;margin-bottom:4px}
+
+.formula{font-family:var(--sans);background:var(--tint);border-radius:12px;padding:12px 16px;margin:12px 0 18px;font-size:1rem;line-height:1.7;overflow-x:auto}
+.formula .eq{display:block;white-space:nowrap}
+.formula var{font-style:italic;font-family:var(--serif);font-size:1.08em}
+
+.note{border-radius:12px;padding:12px 16px;margin:14px 0 18px;font-size:.98rem}
+.note .lab{font-family:var(--sans);font-size:.8rem;font-weight:700;display:block;margin-bottom:2px}
+.note p:last-child,.note ul:last-child{margin-bottom:0}
+.note.unsure{background:var(--tint-warn);border:1px solid color-mix(in srgb,var(--warn) 35%,transparent)}
+.note.unsure .lab{color:var(--warn)}
+.note.derived{background:var(--tint-good);border:1px solid color-mix(in srgb,var(--good) 35%,transparent)}
+.note.derived .lab{color:var(--good)}
+.note.trap{background:var(--panel);border:1px dashed var(--supply)}
+.note.trap .lab{color:var(--supply)}
+
+.tablewrap{overflow-x:auto;margin:12px 0 20px;border:1px solid var(--rule);border-radius:12px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:.9rem;line-height:1.4}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-weight:600;background:var(--tint)}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+caption{caption-side:bottom;text-align:left;padding:8px 12px;color:var(--muted);font-size:.82rem}
+
+figure{margin:18px 0 24px;background:var(--panel);border:1px solid var(--rule);border-radius:14px;padding:16px 16px 10px;overflow-x:auto}
+figure svg{display:block;width:100%;height:auto;min-width:480px;font-family:var(--sans)}
+figure.small svg{min-width:0;max-width:540px;margin:0 auto}
+figcaption{font-family:var(--sans);font-size:.84rem;color:var(--muted);margin-top:8px;line-height:1.45}
+svg .ax{stroke:var(--ink);stroke-width:1.5;fill:none}
+svg .gridl{stroke:var(--grid);stroke-width:1}
+svg .dem{stroke:var(--demand);stroke-width:2.6;fill:none}
+svg .sup{stroke:var(--supply);stroke-width:2.6;fill:none}
+svg .ink{stroke:var(--ink);stroke-width:2.2;fill:none}
+svg .guide{stroke:var(--muted);stroke-width:1;stroke-dasharray:4 4;fill:none}
+svg .t{fill:var(--ink);font-size:13px}
+svg .ts{fill:var(--muted);font-size:11.5px}
+svg .td{fill:var(--demand);font-size:13px;font-weight:600}
+svg .tsu{fill:var(--supply);font-size:13px;font-weight:600}
+svg .tg{fill:var(--good);font-size:12.5px;font-weight:600}
+svg .dot{fill:var(--ink)}
+svg .dotd{fill:var(--demand)}
+svg .dots{fill:var(--supply)}
+svg .box{fill:var(--panel);stroke:var(--rule);stroke-width:1.4}
+svg .boxk{fill:var(--tint);stroke:var(--ink);stroke-width:1.2}
+svg .arr{stroke:var(--muted);stroke-width:1.5;fill:none}
+svg .ahead{fill:var(--muted)}
+
+code,kbd{font-family:var(--mono);font-size:.86em;background:var(--tint);padding:1px 5px;border-radius:4px}
+pre{font-family:var(--mono);font-size:.84rem;line-height:1.55;background:var(--tint);padding:12px 14px;border-radius:8px;overflow-x:auto;margin:10px 0 18px}
+pre code{background:none;padding:0}
+
+details.q{background:var(--panel);border:1px solid var(--rule);border-radius:12px;margin:10px 0;padding:0}
+details.q summary{cursor:pointer;padding:12px 16px;font-family:var(--sans);font-size:.95rem;font-weight:500;list-style:none;display:flex;gap:10px}
+details.q summary::-webkit-details-marker{display:none}
+details.q summary::before{content:"+";font-weight:700;color:var(--demand);width:1em;flex:none}
+details.q[open] summary::before{content:"−"}
+details.q .ans{padding:0 16px 12px 42px;border-top:1px solid var(--rule);padding-top:10px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cols > div{background:var(--panel);border:1px solid var(--rule);border-radius:12px;padding:12px 16px}
+.cols h4{margin-top:0}
+.cols ul{margin-bottom:0}
+.legend{display:flex;flex-wrap:wrap;gap:10px 18px;font-family:var(--sans);font-size:.84rem;color:var(--muted);margin:10px 0 0}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.legend .l1::before{background:var(--tint-warn);border:1px solid var(--warn)}
+.legend .l2::before{background:var(--tint-good);border:1px solid var(--good)}
+.legend .l3::before{border:1px dashed var(--supply)}
+.src{font-family:var(--sans);font-size:.8rem;color:var(--muted);margin:-4px 0 14px}
+footer{margin-top:64px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:.84rem;color:var(--muted)}
+
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding:0 18px}
+  nav.toc{display:none}
+  .toc-mobile{display:block;margin:18px 0 0;font-family:var(--sans);font-size:.92rem;background:var(--panel);border:1px solid var(--rule);border-radius:8px}
+  .toc-mobile summary{padding:10px 14px;cursor:pointer;font-weight:600}
+  .toc-mobile ol{margin:0;padding:0 14px 12px 32px}
+  header.hero{grid-template-columns:1fr}
+  header.hero svg{max-width:220px}
+  .cols{grid-template-columns:1fr}
+}
+@media print{
+  nav.toc,.toc-mobile{display:none}
+  .layout{display:block}
+  details.q{break-inside:avoid}
+  details.q .ans{display:block}
+  figure{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav class="toc" aria-label="Contents">
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#start">Sources and how to read these notes</a></li>
+    <li><a href="#map">The week on one page</a></li>
+    <li class="part">Demand and supply (Lectures 3–7)</li>
+    <li><a href="#markets">Markets and market structures</a></li>
+    <li><a href="#demand">Demand</a></li>
+    <li><a href="#supply">Supply</a></li>
+    <li><a href="#shifts">Shifts vs movements</a></li>
+    <li><a href="#equilibrium">Equilibrium, surplus, shortage</a></li>
+    <li><a href="#ped">Elasticity of demand</a></li>
+    <li><a href="#pes">Elasticity of supply</a></li>
+    <li><a href="#scale">Economies of scale and scope</a></li>
+    <li class="part">Production and cost (live session 1)</li>
+    <li><a href="#graphs">Graphs and slope</a></li>
+    <li><a href="#production">Production function</a></li>
+    <li><a href="#mp">Diminishing marginal product</a></li>
+    <li><a href="#costs">The family of costs</a></li>
+    <li class="part">Choices and profit (live sessions 1–2)</li>
+    <li><a href="#oc">Opportunity cost and sunk cost</a></li>
+    <li><a href="#fraud">Case: fraud-detection model</a></li>
+    <li><a href="#profit">Economic vs accounting profit</a></li>
+    <li><a href="#ppf">Production possibility frontier</a></li>
+    <li class="part">Excel workbooks</li>
+    <li><a href="#excel">Formulas in the workbooks</a></li>
+    <li class="part">Review</li>
+    <li><a href="#formulas">Formula sheet</a></li>
+    <li><a href="#practice">Practice questions</a></li>
+    <li><a href="#uncertain">Open questions in the material</a></li>
+  </ol>
+</nav>
+
+<main>
+<header class="hero">
+  <div>
+    <h1>BDM Week 2: demand, supply, cost and choice</h1>
+    <p>Study notes compiled from the Week 2 recorded lectures, two live sessions, the handwritten boards and the Excel workbooks. Plain-language explanations, every worked number from class, and flags wherever the sources disagree.</p>
+  </div>
+  <svg viewBox="0 0 220 170" role="img" aria-label="A downward-sloping demand line crossing an upward-sloping supply line at the equilibrium point">
+    <line class="ax" x1="24" y1="10" x2="24" y2="150"/><line class="ax" x1="24" y1="150" x2="212" y2="150"/>
+    <line class="dem" x1="34" y1="22" x2="200" y2="140"/>
+    <line class="sup" x1="34" y1="138" x2="200" y2="22"/>
+    <line class="guide" x1="24" y1="81" x2="117" y2="81"/><line class="guide" x1="117" y1="81" x2="117" y2="150"/>
+    <circle class="dot" cx="117" cy="81" r="4.5"/>
+    <text class="td" x="186" y="134">D</text><text class="tsu" x="186" y="32">S</text>
+    <text class="ts" x="122" y="76">equilibrium</text>
+    <text class="ts" x="4" y="16">P</text><text class="ts" x="204" y="166">Q</text>
+  </svg>
+</header>
+
+<details class="toc-mobile"><summary>Contents</summary>
+<ol>
+<li><a href="#start">Sources</a></li><li><a href="#map">The week on one page</a></li><li><a href="#markets">Markets</a></li><li><a href="#demand">Demand</a></li><li><a href="#supply">Supply</a></li><li><a href="#shifts">Shifts vs movements</a></li><li><a href="#equilibrium">Equilibrium</a></li><li><a href="#ped">Elasticity of demand</a></li><li><a href="#pes">Elasticity of supply</a></li><li><a href="#scale">Scale and scope</a></li><li><a href="#graphs">Graphs and slope</a></li><li><a href="#production">Production function</a></li><li><a href="#mp">Marginal product</a></li><li><a href="#costs">Costs</a></li><li><a href="#oc">Opportunity and sunk cost</a></li><li><a href="#fraud">Fraud-detection case</a></li><li><a href="#profit">Economic vs accounting profit</a></li><li><a href="#ppf">PPF</a></li><li><a href="#excel">Excel</a></li><li><a href="#formulas">Formula sheet</a></li><li><a href="#practice">Practice</a></li><li><a href="#uncertain">Open questions</a></li>
+</ol></details>
+
+<section id="start">
+<h2>Sources and how to read these notes</h2>
+<p>The Week 2 material came in four forms. The table shows what each one covered, so you can go back to the original when you revise.</p>
+<div class="tablewrap"><table>
+<thead><tr><th>Source</th><th>What it covers</th></tr></thead>
+<tbody>
+<tr><td>Lecture 03 (transcript)</td><td>Why demand and supply matter to a business data analyst. Overview only.</td></tr>
+<tr><td>Lecture 04</td><td>Markets and market structures; definitions and laws of demand and supply; schedules, curves; individual vs market demand.</td></tr>
+<tr><td>Lecture 05</td><td>Demand and supply curves, what shifts them, the cigarette case, equilibrium, surplus and shortage, the summer ice-cream shift.</td></tr>
+<tr><td>Lecture 06</td><td>Price elasticity of demand: determinants, formula, five types, effect on total revenue.</td></tr>
+<tr><td>Lecture 07</td><td>Price elasticity of supply, the wheat and OPEC cases, economies of scale and scope.</td></tr>
+<tr><td>Live lecture transcript, session 1</td><td>Graphs and slope, cost of production, production function, short vs long run, marginal product, cost types, opportunity cost, sunk cost, the fraud-detection case.</td></tr>
+<tr><td>Live lecture transcript, session 2</td><td>Explicit vs implicit cost, economist vs accountant, economic vs accounting profit (“profit illusion”), production possibility frontier, a brief Excel demo.</td></tr>
+<tr><td>Week2 Session-3 PDF (handwritten board)</td><td>The board for live session 1. Used to check numbers in the transcript.</td></tr>
+<tr><td>Week2 Session-4 PDF (handwritten board)</td><td>The board for live session 2.</td></tr>
+<tr><td>WorkBook_Excel.xlsx, Excel_Advanced_VLOOKUP_Formula.xlsx</td><td>SUM, AVERAGE, SUMIF(S), pivot tables, Flash Fill, PMT/IPMT/PPMT, VLOOKUP. Not explained in any transcript; notes are built from the formulas in the files.</td></tr>
+</tbody></table></div>
+<p>Three kinds of callout appear throughout:</p>
+<div class="legend"><span class="l1">Uncertain or conflicting in the sources</span><span class="l2">Derived by me from class numbers, not stated in class</span><span class="l3">Common exam trap</span></div>
+</section>
+
+<section id="map">
+<h2>The week on one page</h2>
+<div class="summary"><span class="lab">In one paragraph</span>
+<p>A business earns revenue by selling at a price, and that price is set where buyers’ <strong>demand</strong> meets sellers’ <strong>supply</strong>. <strong>Elasticity</strong> tells you whether changing the price will raise or lower revenue. On the other side of the ledger, the <strong>production function</strong> turns inputs into output, and those inputs create <strong>costs</strong>. Because resources are scarce, every choice has an <strong>opportunity cost</strong>; counting it turns accounting profit into <strong>economic profit</strong>, and the <strong>PPF</strong> shows the trade-offs between products when resources are fixed.</p></div>
+<figure>
+<svg viewBox="0 0 770 300" role="img" aria-label="Concept map linking demand, supply, equilibrium, elasticity, revenue, production, cost, scarcity, opportunity cost, PPF and economic profit to profit">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahead"/></marker></defs>
+<g>
+<rect class="box" x="20" y="20" width="150" height="38" rx="6"/><text class="td" x="95" y="44" text-anchor="middle">Demand</text>
+<rect class="box" x="20" y="80" width="150" height="38" rx="6"/><text class="tsu" x="95" y="104" text-anchor="middle">Supply</text>
+<rect class="box" x="220" y="50" width="160" height="38" rx="6"/><text class="t" x="300" y="74" text-anchor="middle">Equilibrium P and Q</text>
+<rect class="box" x="430" y="0" width="150" height="38" rx="6"/><text class="t" x="505" y="24" text-anchor="middle">Elasticity</text>
+<rect class="box" x="430" y="60" width="150" height="38" rx="6"/><text class="t" x="505" y="84" text-anchor="middle">Revenue = P × Q</text>
+<rect class="boxk" x="610" y="140" width="140" height="44" rx="6"/><text class="t" x="680" y="167" text-anchor="middle" font-weight="700">Profit</text>
+<rect class="box" x="20" y="150" width="150" height="38" rx="6"/><text class="t" x="95" y="174" text-anchor="middle">Production function</text>
+<rect class="box" x="220" y="150" width="160" height="38" rx="6"/><text class="t" x="300" y="174" text-anchor="middle">Cost of production</text>
+<rect class="box" x="20" y="240" width="150" height="38" rx="6"/><text class="t" x="95" y="264" text-anchor="middle">Scarcity</text>
+<rect class="box" x="220" y="240" width="160" height="38" rx="6"/><text class="t" x="300" y="264" text-anchor="middle">Opportunity cost</text>
+<rect class="box" x="430" y="200" width="150" height="38" rx="6"/><text class="t" x="505" y="224" text-anchor="middle">PPF trade-offs</text>
+<rect class="box" x="430" y="256" width="150" height="38" rx="6"/><text class="t" x="505" y="280" text-anchor="middle">Economic profit</text>
+</g>
+<g marker-end="url(#ah)">
+<line class="arr" x1="170" y1="42" x2="218" y2="62"/>
+<line class="arr" x1="170" y1="96" x2="218" y2="78"/>
+<line class="arr" x1="380" y1="72" x2="428" y2="77"/>
+<line class="arr" x1="505" y1="38" x2="505" y2="58"/>
+<line class="arr" x1="580" y1="88" x2="640" y2="138"/>
+<line class="arr" x1="170" y1="169" x2="218" y2="169"/>
+<line class="arr" x1="380" y1="166" x2="608" y2="160"/>
+<line class="arr" x1="170" y1="259" x2="218" y2="259"/>
+<line class="arr" x1="380" y1="252" x2="428" y2="226"/>
+<line class="arr" x1="380" y1="266" x2="428" y2="272"/>
+<line class="arr" x1="580" y1="270" x2="660" y2="186"/>
+</g>
+</svg>
+<figcaption>How the Week 2 topics connect. Top row: the revenue side (Lectures 4–7). Middle and bottom rows: the cost and choice side (live sessions).</figcaption>
+</figure>
+<p>Why it matters for you as an analyst, in the lecturer’s words from Lecture 3: firms use demand and supply data to forecast sales, set prices, plan production and inventory, and decide on new markets or products. Your job is to spot changing patterns in that data so managers decide from evidence rather than assumptions.</p>
+</section>
+
+<section class="part" id="part-a">
+<h2 class="part-title">Part A: Recorded lectures 3–7</h2>
+
+<h2 id="markets">Markets and market structures</h2>
+<div class="summary"><span class="lab">Summary</span>
+<p>A <strong>market</strong> is any place, physical or online, where buyers and sellers meet to exchange a good or service. How many sellers there are decides who controls the price.</p></div>
+<p><strong>Organised vs unorganised.</strong> An organised market brings buyers and sellers together at a set time and place, like a mandi or farmers’ market. An unorganised market is scattered, like ice-cream vendors spread across a town.</p>
+<p><strong>By level of competition:</strong></p>
+<div class="tablewrap"><table>
+<thead><tr><th>Structure</th><th>Sellers</th><th>Who sets the price</th><th>Example from class</th></tr></thead>
+<tbody>
+<tr><td>Perfect competition</td><td>Many, selling near-identical goods</td><td>Market forces only; no single buyer or seller can move it</td><td>Commodity markets</td></tr>
+<tr><td>Oligopoly</td><td>A few</td><td>Strongly influenced by the few big players</td><td>Indian telecom (Airtel, Vodafone Idea and a handful of others)</td></tr>
+<tr><td>Monopoly</td><td>One</td><td>The single seller has very high bargaining power</td><td>IRCTC for railway tickets; Indian Oil earlier in fuel</td></tr>
+</tbody></table></div>
+<p>Perfect competition has two conditions: goods are the same or very similar, and buyers and sellers are so numerous that nobody can influence the price.</p>
+
+<h2 id="demand">Demand</h2>
+<div class="summary"><span class="lab">Definition</span>
+<p><strong>Demand</strong> is the quantity of a good or service that consumers are <em>willing and able</em> to buy at different prices during a given period of time.</p></div>
+<ul>
+<li><strong>Willing</strong> means there is a want or need. <strong>Able</strong> means there is purchasing power. Wanting a BMW you cannot afford is a desire, not demand.</li>
+<li><strong>At different prices</strong>: demand is a whole relationship, not one number.</li>
+<li><strong>Over a period of time</strong>: demand is always measured per week, month, and so on.</li>
+</ul>
+<p><strong>Law of demand.</strong> <em>Ceteris paribus</em> (other things remaining the same), when price rises, quantity demanded falls, and when price falls, quantity demanded rises. If a mug costs ₹50 you might buy five; at ₹100 you buy fewer.</p>
+<p>A <strong>demand schedule</strong> is the table of prices and quantities. Plotting it gives the <strong>demand curve</strong>, with price on the y-axis and quantity on the x-axis. It slopes downward.</p>
+<div class="tablewrap"><table>
+<thead><tr><th class="num">Price of an ice-cream cone</th><th class="num">Quantity demanded</th></tr></thead>
+<tbody>
+<tr><td class="num">0.5</td><td class="num">10</td></tr>
+<tr><td class="num">1.0</td><td class="num">8</td></tr>
+<tr><td class="num">1.5</td><td class="num">6</td></tr>
+<tr><td class="num">2.0</td><td class="num">4</td></tr>
+<tr><td class="num">3.0</td><td class="num">0</td></tr>
+</tbody>
+<caption>Ice-cream demand schedule used in Lectures 4 and 5. Currency unit not specified (the slides appear to use $).</caption></table></div>
+<p><strong>Market demand</strong> is the sum of every individual’s demand at each price. If A wants 4 cones and B wants 3 cones at a price of 2, and they are the whole market, market demand at that price is 7.</p>
+
+<h2 id="supply">Supply</h2>
+<div class="summary"><span class="lab">Definition</span>
+<p><strong>Supply</strong> is the quantity that sellers are <em>willing and able</em> to offer for sale at different prices during a given period of time.</p></div>
+<ul>
+<li><strong>Able</strong> means capacity. A plant that can make 10,000 units cannot sell 10,001, whatever the price.</li>
+<li>Higher prices mean more profit per unit, so sellers want to sell more. At very low prices they may make a loss and pull back.</li>
+</ul>
+<p><strong>Law of supply.</strong> Ceteris paribus, when price rises, quantity supplied rises; when price falls, it falls. The supply curve therefore slopes <strong>upward</strong>. In the ice-cream example, sellers offer 2 cones at a price of 1.5 and 5 cones at a price of 3. Market supply is the sum of all sellers’ supply.</p>
+
+<h2 id="shifts">Shifts of a curve vs movements along it</h2>
+<div class="summary"><span class="lab">The rule to remember</span>
+<p>A change in the good’s <strong>own price</strong> moves you <strong>along</strong> the curve. A change in <strong>anything else</strong> that affects buyers or sellers <strong>shifts</strong> the whole curve. Right means more at every price; left means less.</p></div>
+<div class="cols">
+<div><h4>What shifts demand</h4>
+<ul>
+<li><strong>Income.</strong> For a <em>normal good</em> (a car) demand rises with income. If demand rises when income falls (taking the bus instead of buying a car), it is an <em>inferior good</em>.</li>
+<li><strong>Prices of related goods.</strong> <em>Substitutes</em> (ice cream and frozen yogurt): a cheaper one reduces demand for the other. <em>Complements</em> (ice cream and hot fudge): a cheaper one raises demand for the other.</li>
+<li><strong>Tastes and preferences.</strong> A fitness trend raises demand for protein shakes.</li>
+<li><strong>Expectations.</strong> Expecting a fuel price hike, people buy more petrol now.</li>
+<li><strong>Number of buyers.</strong> A new factory employing 2,000 people raises local demand.</li>
+</ul></div>
+<div><h4>What shifts supply</h4>
+<ul>
+<li><strong>Input prices.</strong> Costlier inputs squeeze profit, so supply falls.</li>
+<li><strong>Technology.</strong> Automation and better processes lower cost and raise supply.</li>
+<li><strong>Expectations.</strong> If firms expect higher prices later, they hold back stock now.</li>
+<li><strong>Number of sellers.</strong> Sellers leaving the industry reduce capacity and supply.</li>
+</ul>
+<p class="src">The lecturer stressed that neither list is exhaustive.</p></div>
+</div>
+
+<h3>Case: reducing cigarette demand</h3>
+<p>Policymakers can cut smoking in two different ways, and they look different on a graph.</p>
+<figure>
+<svg viewBox="0 0 640 290" role="img" aria-label="Two panels. Left: demand curve shifts left from D1 to D2, quantity falls from 20 to 12 at a price of 2. Right: price rises from 2 to 4 along the same demand curve, quantity falls from 20 to 12.">
+<text class="t" x="50" y="22" font-weight="600">Shift of the curve (ads, warnings)</text>
+<line class="ax" x1="50" y1="40" x2="50" y2="240"/><line class="ax" x1="50" y1="240" x2="285" y2="240"/>
+<line class="dem" x1="50" y1="65" x2="260" y2="240"/>
+<line class="dem" x1="50" y1="115" x2="200" y2="240" stroke-dasharray="7 5"/>
+<line class="guide" x1="50" y1="190" x2="200" y2="190"/>
+<line class="guide" x1="200" y1="190" x2="200" y2="240"/><line class="guide" x1="140" y1="190" x2="140" y2="240"/>
+<circle class="dotd" cx="200" cy="190" r="5"/><circle class="dotd" cx="140" cy="190" r="5"/>
+<text class="t" x="206" y="182">A</text><text class="t" x="116" y="180">B</text>
+<text class="td" x="250" y="225">D1</text><text class="td" x="100" y="144">D2</text>
+<text class="ts" x="30" y="194">2</text><text class="ts" x="194" y="256">20</text><text class="ts" x="134" y="256">12</text>
+<path d="M190,172 L152,172" class="arr" marker-end="url(#ah)"/>
+<text class="ts" x="54" y="54">Price</text><text class="ts" x="240" y="272">Cigarettes</text>
+<text class="t" x="370" y="22" font-weight="600">Movement along the curve (tax)</text>
+<line class="ax" x1="370" y1="40" x2="370" y2="240"/><line class="ax" x1="370" y1="240" x2="605" y2="240"/>
+<line class="dem" x1="370" y1="65" x2="580" y2="240"/>
+<line class="guide" x1="370" y1="190" x2="520" y2="190"/><line class="guide" x1="520" y1="190" x2="520" y2="240"/>
+<line class="guide" x1="370" y1="140" x2="460" y2="140"/><line class="guide" x1="460" y1="140" x2="460" y2="240"/>
+<circle class="dotd" cx="520" cy="190" r="5"/><circle class="dotd" cx="460" cy="140" r="5"/>
+<text class="t" x="526" y="184">A</text><text class="t" x="466" y="134">B</text>
+<path d="M512,182 L470,150" class="arr" marker-end="url(#ah)"/>
+<text class="td" x="572" y="225">D</text>
+<text class="ts" x="350" y="194">2</text><text class="ts" x="350" y="144">4</text>
+<text class="ts" x="514" y="256">20</text><text class="ts" x="454" y="256">12</text>
+<text class="ts" x="374" y="54">Price</text><text class="ts" x="560" y="272">Cigarettes</text>
+</svg>
+<figcaption>Left: public warnings change preferences, so the whole curve moves left and fewer cigarettes are bought <em>at the same price</em>. Right: a tax raises the price from 2 to 4, so consumers move up the same curve and quantity falls from 20 to 12. Quantities for the left panel’s point B are illustrative; the lecture only says demand fell from 20.</figcaption>
+</figure>
+<div class="note trap"><span class="lab">Exam trap</span><p>“Demand fell because the price went up” is wrong wording. A price rise causes a fall in <em>quantity demanded</em> (movement). “Demand fell” means the curve shifted.</p></div>
+
+<h2 id="equilibrium">Equilibrium, surplus and shortage</h2>
+<div class="summary"><span class="lab">Summary</span>
+<p>The <strong>equilibrium price</strong> is where quantity demanded equals quantity supplied: the point where the two curves cross. In a free market the price drifts back to it on its own.</p></div>
+<figure>
+<svg viewBox="0 0 520 330" role="img" aria-label="Demand and supply cross at price 2 and quantity 7. At price 3 there is a surplus between quantity 4 and 13. At price 1.5 there is a shortage between quantity 4 and 8.5.">
+<line class="gridl" x1="60" y1="102.5" x2="490" y2="102.5"/><line class="gridl" x1="60" y1="196.25" x2="490" y2="196.25"/>
+<line class="ax" x1="60" y1="30" x2="60" y2="290"/><line class="ax" x1="60" y1="290" x2="495" y2="290"/>
+<line class="dem" x1="90" y1="40" x2="450" y2="290"/>
+<line class="sup" x1="90" y1="227.5" x2="480" y2="92.1"/>
+<line x1="180" y1="102.5" x2="450" y2="102.5" stroke="var(--supply)" stroke-width="7" opacity=".28"/>
+<line x1="180" y1="196.25" x2="315" y2="196.25" stroke="var(--demand)" stroke-width="7" opacity=".28"/>
+<line class="guide" x1="60" y1="165" x2="270" y2="165"/><line class="guide" x1="270" y1="165" x2="270" y2="290"/>
+<circle class="dot" cx="270" cy="165" r="5"/>
+<text class="t" x="265" y="150" font-weight="600">E</text>
+<text class="tsu" x="200" y="92">Surplus: Qs 13 &gt; Qd 4</text>
+<text class="td" x="100" y="246">Shortage: Qd 8.5 &gt; Qs 4</text>
+<text class="ts" x="38" y="106">3</text><text class="ts" x="38" y="169">2</text><text class="ts" x="30" y="200">1.5</text>
+<text class="ts" x="265" y="306">7</text>
+<text class="td" x="456" y="282">D</text><text class="tsu" x="482" y="88">S</text>
+<text class="ts" x="66" y="40">Price</text><text class="ts" x="440" y="320">Quantity</text>
+</svg>
+<figcaption>Equilibrium at P = 2, Q = 7 (the Lecture 5 figure). The surplus and shortage price levels are illustrative values I chose to show the idea; the lecture describes them in words only.</figcaption>
+</figure>
+<div class="cols">
+<div><h4>Price above equilibrium → surplus</h4><p>Sellers offer more than buyers want. Unsold stock builds up, so sellers cut prices until the market clears.</p></div>
+<div><h4>Price below equilibrium → shortage</h4><p>Buyers want more than sellers offer. Sellers are under-motivated at the low price, so they raise it back towards equilibrium.</p></div>
+</div>
+<h3>Case: a hot summer for ice cream</h3>
+<p>Summer raises demand at every price, so demand shifts right from D1 to D2 while supply is unchanged. The new equilibrium has <strong>both a higher price and a higher quantity</strong>: price rises from 2 to 2.5, quantity from 7 to 10. As an analyst you would plan seasonal pricing around this.</p>
+<figure>
+<svg viewBox="0 0 520 330" role="img" aria-label="Demand shifts right from D1 to D2. Equilibrium moves from price 2 quantity 7 to price 2.5 quantity 10.">
+<line class="ax" x1="60" y1="30" x2="60" y2="290"/><line class="ax" x1="60" y1="290" x2="495" y2="290"/>
+<line class="dem" x1="90" y1="40" x2="450" y2="290"/>
+<line class="dem" x1="225" y1="40" x2="480" y2="217.1" stroke-dasharray="8 5"/>
+<line class="sup" x1="90" y1="227.5" x2="480" y2="92.1"/>
+<line class="guide" x1="60" y1="165" x2="270" y2="165"/><line class="guide" x1="270" y1="165" x2="270" y2="290"/>
+<line class="guide" x1="60" y1="133.75" x2="360" y2="133.75"/><line class="guide" x1="360" y1="133.75" x2="360" y2="290"/>
+<circle class="dot" cx="270" cy="165" r="5"/><circle class="dot" cx="360" cy="133.75" r="5"/>
+<path d="M300,200 L340,200" class="arr" marker-end="url(#ah)"/>
+<text class="t" x="244" y="192">E1</text><text class="t" x="368" y="122">E2</text>
+<text class="ts" x="38" y="169">2</text><text class="ts" x="30" y="138">2.5</text>
+<text class="ts" x="265" y="306">7</text><text class="ts" x="352" y="306">10</text>
+<text class="td" x="455" y="282">D1</text><text class="td" x="470" y="236">D2</text><text class="tsu" x="482" y="88">S</text>
+<text class="ts" x="66" y="40">Price</text><text class="ts" x="440" y="320">Quantity</text>
+</svg>
+<figcaption>Demand rises (D1 → D2), supply stays put: equilibrium price 2 → 2.5, quantity 7 → 10.</figcaption>
+</figure>
+
+<h2 id="ped">Price elasticity of demand</h2>
+<div class="summary"><span class="lab">Summary</span>
+<p>Elasticity is the <strong>degree of responsiveness</strong> of one variable to another. Price elasticity of demand (PED) asks: when price changes by some percentage, by what percentage does quantity demanded change?</p></div>
+<div class="formula">
+<span class="eq">PED = % change in quantity demanded ÷ % change in price</span>
+<span class="eq">|PED| &gt; 1 elastic &nbsp;&nbsp; |PED| &lt; 1 inelastic &nbsp;&nbsp; |PED| = 1 unit elastic</span>
+</div>
+<p><strong>Worked example.</strong> The price of a cone rises 10% and the quantity you buy falls 20%. PED = 20 ÷ 10 = 2, so demand is elastic.</p>
+<div class="note trap"><span class="lab">Sign convention</span><p>Price and quantity demanded move in opposite directions, so PED is technically negative (−2). The lectures quote it as a positive ratio; compare its <em>size</em> with 1.</p></div>
+<p>Two everyday contrasts from the lecture: if Netflix raises prices and many people cancel, its demand is <strong>elastic</strong>. If petrol prices rise and people still fill up, petrol demand is <strong>inelastic</strong>.</p>
+
+<h3>What makes demand more or less elastic</h3>
+<div class="tablewrap"><table>
+<thead><tr><th>Determinant</th><th>More elastic when…</th><th>Less elastic when…</th></tr></thead>
+<tbody>
+<tr><td>Close substitutes</td><td>Many exist (butter has substitutes)</td><td>Few exist, or the product is unique (eggs)</td></tr>
+<tr><td>Necessity vs luxury</td><td>Luxury or nice-to-have (branded clothes, restaurants)</td><td>Necessity (doctor’s visit, medicines)</td></tr>
+<tr><td>Market definition</td><td>Narrowly defined (vanilla ice cream)</td><td>Broadly defined (food)</td></tr>
+<tr><td>Time horizon</td><td>Long run: people find alternatives (petrol → EVs over years)</td><td>Short run: no time to adjust</td></tr>
+</tbody></table></div>
+
+<h3>The five types</h3>
+<figure>
+<svg viewBox="0 0 760 200" role="img" aria-label="Five small demand curves: perfectly inelastic vertical, inelastic steep, unit elastic curved, elastic flat, perfectly elastic horizontal.">
+<g><line class="ax" x1="20" y1="20" x2="20" y2="140"/><line class="ax" x1="20" y1="140" x2="140" y2="140"/><line class="dem" x1="80" y1="28" x2="80" y2="140"/><text class="t" x="80" y="165" text-anchor="middle">Perfectly inelastic</text><text class="ts" x="80" y="182" text-anchor="middle">= 0, insulin</text></g>
+<g transform="translate(152,0)"><line class="ax" x1="20" y1="20" x2="20" y2="140"/><line class="ax" x1="20" y1="140" x2="140" y2="140"/><line class="dem" x1="60" y1="28" x2="100" y2="136"/><text class="t" x="80" y="165" text-anchor="middle">Inelastic</text><text class="ts" x="80" y="182" text-anchor="middle">&lt; 1, petrol, medicines</text></g>
+<g transform="translate(304,0)"><line class="ax" x1="20" y1="20" x2="20" y2="140"/><line class="ax" x1="20" y1="140" x2="140" y2="140"/><path class="dem" d="M34,28 Q44,118 134,128"/><text class="t" x="80" y="165" text-anchor="middle">Unit elastic</text><text class="ts" x="80" y="182" text-anchor="middle">= 1, theoretical</text></g>
+<g transform="translate(456,0)"><line class="ax" x1="20" y1="20" x2="20" y2="140"/><line class="ax" x1="20" y1="140" x2="140" y2="140"/><line class="dem" x1="28" y1="62" x2="136" y2="102"/><text class="t" x="80" y="165" text-anchor="middle">Elastic</text><text class="ts" x="80" y="182" text-anchor="middle">&gt; 1, branded clothes</text></g>
+<g transform="translate(608,0)"><line class="ax" x1="20" y1="20" x2="20" y2="140"/><line class="ax" x1="20" y1="140" x2="140" y2="140"/><line class="dem" x1="20" y1="80" x2="138" y2="80"/><text class="t" x="80" y="165" text-anchor="middle">Perfectly elastic</text><text class="ts" x="80" y="182" text-anchor="middle">∞, commodities</text></g>
+</svg>
+<figcaption>Price on the vertical axis, quantity on the horizontal. The steeper the demand curve, the less quantity responds to price.</figcaption>
+</figure>
+<ul>
+<li><strong>Elastic:</strong> a small price change causes a relatively larger change in quantity.</li>
+<li><strong>Inelastic:</strong> a price change causes a relatively smaller change, sometimes none.</li>
+<li><strong>Unit elastic:</strong> the two percentage changes are equal (10% price fall, 10% quantity rise).</li>
+<li><strong>Perfectly elastic:</strong> even a tiny price rise sends demand to zero, because buyers switch to identical substitutes. Typical of commodity, perfectly competitive markets (price moves 10 → 12 and sales collapse).</li>
+<li><strong>Perfectly inelastic:</strong> quantity does not change at all, whatever the price (life-saving insulin).</li>
+</ul>
+<div class="note derived"><span class="lab">Why the lecture says “22%”</span><p>The unit-elastic graph moves price from 4 to 5 and quantity from 100 to 80, and the lecturer calls both changes about 22%. Simple percentages give 25% and 20%. The 22% figure matches the <strong>midpoint method</strong>: change ÷ average of the two values, so 1 ÷ 4.5 ≈ 22.2% and 20 ÷ 90 ≈ 22.2%. That method gives the same answer whichever direction you move, which is why textbooks use it.</p></div>
+
+<h3>Elasticity and total revenue</h3>
+<div class="formula"><span class="eq">Total revenue = P × Q</span></div>
+<div class="tablewrap"><table>
+<thead><tr><th>Demand is…</th><th>Raise the price and total revenue…</th><th>Why</th></tr></thead>
+<tbody>
+<tr><td>Elastic</td><td>Falls</td><td>Quantity drops by a larger percentage than price rises</td></tr>
+<tr><td>Inelastic</td><td>Rises</td><td>Quantity drops by a smaller percentage, or not at all</td></tr>
+<tr><td>Unit elastic</td><td>Stays the same</td><td>The two effects cancel</td></tr>
+</tbody></table></div>
+<p>So the analyst’s question is always: where does our product sit relative to competitors and customer need? A differentiated product can carry a price rise; a commoditised one cannot.</p>
+<div class="note unsure"><span class="lab">Slips in the Lecture 6 transcript</span><ul>
+<li>In the 10%/20% example the speaker says “10% was the fall in pricing”; the example is a 10% <em>rise</em>.</li>
+<li>“For an elastic demand, the ratio will be less than one” should read <em>inelastic</em>. Likely a transcription error.</li></ul></div>
+
+<h2 id="pes">Price elasticity of supply</h2>
+<div class="summary"><span class="lab">Summary</span>
+<p>Price elasticity of supply (PES) measures how much <strong>quantity supplied</strong> responds to a price change. It is mostly about the <strong>flexibility of sellers</strong>: can they ramp production up or down quickly?</p></div>
+<div class="formula"><span class="eq">PES = % change in quantity supplied ÷ % change in price</span></div>
+<p><strong>Worked example (milk).</strong> Price rises 10%, and dairy farmers raise output from 100 to 120 gallons, a 20% increase. PES = 20 ÷ 10 = 2: elastic supply. (The lecture says “20 divided by 10%”; the 20 is a percentage because the base is 100.)</p>
+<h3>What makes supply elastic or inelastic</h3>
+<div class="tablewrap"><table>
+<thead><tr><th>Factor</th><th>Supply is more elastic when…</th></tr></thead>
+<tbody>
+<tr><td>Time horizon</td><td>Firms have longer to adjust (a car maker can scale up over years, not weeks)</td></tr>
+<tr><td>Spare capacity</td><td>The plant runs at 40–60%, not 95–98%</td></tr>
+<tr><td>Availability of inputs</td><td>Raw materials and skilled labour are easy to get</td></tr>
+<tr><td>Nature of the product</td><td>Goods are not perishable or unique (fresh produce and one-of-a-kind items tend to be inelastic)</td></tr>
+<tr><td>Technology</td><td>Automation lets output scale fast</td></tr>
+<tr><td>Government regulation</td><td>Licensing is light (mining licences slow expansion and reduce elasticity)</td></tr>
+</tbody></table></div>
+<h3>The five types of supply</h3>
+<figure>
+<svg viewBox="0 0 760 200" role="img" aria-label="Five small supply curves: perfectly inelastic vertical, inelastic steep, unit elastic through origin, elastic flat, perfectly elastic horizontal.">
+<g><line class="ax" x1="20" y1="20" x2="20" y2="140"/><line class="ax" x1="20" y1="140" x2="140" y2="140"/><line class="sup" x1="80" y1="28" x2="80" y2="140"/><text class="t" x="80" y="165" text-anchor="middle">Perfectly inelastic</text><text class="ts" x="80" y="182" text-anchor="middle">rare paintings, island land</text></g>
+<g transform="translate(152,0)"><line class="ax" x1="20" y1="20" x2="20" y2="140"/><line class="ax" x1="20" y1="140" x2="140" y2="140"/><line class="sup" x1="60" y1="136" x2="100" y2="28"/><text class="t" x="80" y="165" text-anchor="middle">Inelastic</text><text class="ts" x="80" y="182" text-anchor="middle">crops, short run</text></g>
+<g transform="translate(304,0)"><line class="ax" x1="20" y1="20" x2="20" y2="140"/><line class="ax" x1="20" y1="140" x2="140" y2="140"/><line class="sup" x1="20" y1="140" x2="128" y2="32"/><text class="t" x="80" y="165" text-anchor="middle">Unit elastic</text><text class="ts" x="80" y="182" text-anchor="middle">equal % changes</text></g>
+<g transform="translate(456,0)"><line class="ax" x1="20" y1="20" x2="20" y2="140"/><line class="ax" x1="20" y1="140" x2="140" y2="140"/><line class="sup" x1="28" y1="110" x2="136" y2="62"/><text class="t" x="80" y="165" text-anchor="middle">Elastic</text><text class="ts" x="80" y="182" text-anchor="middle">festive clothing</text></g>
+<g transform="translate(608,0)"><line class="ax" x1="20" y1="20" x2="20" y2="140"/><line class="ax" x1="20" y1="140" x2="140" y2="140"/><line class="sup" x1="20" y1="80" x2="138" y2="80"/><text class="t" x="80" y="165" text-anchor="middle">Perfectly elastic</text><text class="ts" x="80" y="182" text-anchor="middle">commodity trading</text></g>
+</svg>
+<figcaption>Supply versions of the five types, with the lecture’s examples. Perfectly elastic: sellers supply any quantity at one fixed price, nothing below it.</figcaption>
+</figure>
+<p><strong>Elasticity changes along the curve</strong> for firms with limited capacity: elastic at low output (spare capacity is easy to use), inelastic near 90–98% utilisation.</p>
+<div class="note unsure"><span class="lab">Slip in the Lecture 7 transcript</span><p>The unit-elastic supply line says “a 10% fall in price leads to a 10% rise in supply. It is a perfectly elastic kind of situation.” Under the law of supply, a 10% price fall gives a 10% <em>fall</em> in quantity supplied, and unit elastic is not perfectly elastic. Treat this as a misspeak.</p></div>
+
+<h3>Case: a new high-yield wheat</h3>
+<ol>
+<li>A hybrid crop raises yields, so the supply curve shifts right.</li>
+<li>Demand for wheat is inelastic and does not change.</li>
+<li>Equilibrium price falls a lot; quantity sold rises only a little.</li>
+<li>So farmers’ total revenue <strong>falls</strong>.</li>
+</ol>
+<p>This explains the policy paradox of paying farmers <em>not</em> to plant: restricting supply raises price and, with inelastic demand, raises their revenue. Good news for farming can be bad news for farmers.</p>
+<h3>Case: OPEC in the 1970s</h3>
+<div class="cols">
+<div><h4>Short run</h4><p>OPEC cut supply. Oil demand and supply are both inelastic in the short run (you cannot build extraction capacity overnight), so prices jumped and OPEC revenues rose.</p></div>
+<div><h4>Long run</h4><p>Non-OPEC producers explored and built capacity; consumers conserved and bought efficient vehicles. Both curves became more elastic, and prices steadily declined.</p></div>
+</div>
+<p>The lesson: <strong>elasticity grows with time</strong>, so a strategy that works in the short run can unravel in the long run.</p>
+
+<h2 id="scale">Economies of scale and scope</h2>
+<div class="cols">
+<div><h4>Economies of scale</h4><p>Producing <strong>more of one thing</strong> lowers the average cost per unit, because fixed costs are spread over more units. Margins improve, prices can drop, and the supply curve shifts right. This is why firms offer bulk discounts.</p></div>
+<div><h4>Economies of scope</h4><p>Producing <strong>a variety of related products</strong> with shared resources lowers cost. The same team serving three products instead of one spreads its cost three ways.</p></div>
+</div>
+<p>The two are separate ideas but converge: both lower cost, raise supply and build competitive advantage. Fixed and variable costs are covered properly in the later finance module.</p>
+</section>
+
+<section class="part" id="part-b">
+<h2 class="part-title">Part B: Live session 1: production and cost</h2>
+
+<h2 id="graphs">Graphs and slope</h2>
+<div class="summary"><span class="lab">Summary</span>
+<p>Graphs let you <em>see</em> patterns that are hard to read from equations or theories. Slope measures how responsive one variable is to another.</p></div>
+<ul>
+<li><strong>In maths</strong>, a graph usually has one independent input and one dependent output (<var>y</var> = <var>mx</var> + <var>c</var>: you choose <var>x</var>, get <var>y</var>). The lecturer called this a <em>static</em> plot, like land productivity plotted from 1970 to 2026.</li>
+<li><strong>In economics</strong>, the lecturer’s point was that variables influence each other (price affects quantity bought, and buying in bulk affects the price you get) and that the data is <em>dynamic</em>: prices change daily, even by the second for gold.</li>
+</ul>
+<p>Two examples from class. Study time vs grades: more study hours, higher grades likely, so an <strong>upward-sloping</strong> line with positive slope (positive correlation). Party time vs grades: more partying, lower grades, so a <strong>downward-sloping</strong> line with negative slope (negative correlation).</p>
+<div class="formula"><span class="eq">Slope = Δ<var>y</var> ÷ Δ<var>x</var> = (<var>y</var>₂ − <var>y</var>₁) ÷ (<var>x</var>₂ − <var>x</var>₁)</span></div>
+<p>Slope matters this week because <strong>marginal</strong> quantities (marginal product, marginal cost, MRT) are all slopes.</p>
+<div class="note unsure"><span class="lab">Framing to read carefully</span><p>The instructor said that in economics “both variables are dependent.” This is his way of stressing that price and quantity move together. Standard texts still treat price as the variable on the y-axis that quantity responds to; do not let this framing confuse you on an exam about the law of demand.</p></div>
+
+<h2 id="production">Cost of production, revenue and the production function</h2>
+<p>A firm turns <strong>inputs</strong> into <strong>output</strong>. Inputs include raw materials, machines, land, labour and a production facility. A tailor making T-shirts needs cotton, thread, a sewing machine and manpower. The money spent to acquire inputs is the <strong>cost of production</strong>.</p>
+<div class="formula">
+<span class="eq">Total revenue = quantity sold × selling price</span>
+<span class="eq">Profit = total revenue − cost of production</span>
+</div>
+<p>To maximise profit you can only work on these two levers, so you must know both.</p>
+<div class="summary"><span class="lab">Production function</span>
+<p>The relationship between the inputs used and the maximum output they can produce. Written <var>Q</var> = <var>f</var>(<var>K</var>, <var>L</var>).</p></div>
+<p>Farm example: one acre of land, one labourer working 2 hours a day, maximum output about 2.5 tonnes of wheat. Change the labour hours or the land and output changes.</p>
+<p>The generalised form shown in class is the <strong>Cobb–Douglas</strong> production function:</p>
+<div class="formula"><span class="eq"><var>Q</var> = <var>x</var>₁<sup>α</sup> · <var>x</var>₂<sup>β</sup></span></div>
+<p>Here <var>x</var>₁ and <var>x</var>₂ are the two input variables, the <strong>factors of production</strong>, and α and β are constants. A student asked whether it is “x₁ into α”; the instructor confirmed it is <strong>x₁ to the power α</strong>. Only two factors are used because a 2D graph can show only two variables, not because real production has only two.</p>
+<div class="note unsure"><span class="lab">Notation</span><ul>
+<li>The instructor used <var>K</var> for labour and <var>L</var> for land in the farm example. In most textbooks <var>K</var> is capital and <var>L</var> is labour. Check which your exam uses.</li>
+<li>The board writes the simple farm version as <var>q</var> = <var>K</var> × <var>L</var>. That is an illustration, not a standard formula.</li></ul></div>
+
+<h3>Short run vs long run</h3>
+<div class="cols">
+<div><h4>Short run</h4><p><strong>At least one input is fixed.</strong> You cannot buy more land in two months, or move a cloud kitchen to a bigger space after three months of trading. You can still vary labour and equipment (buy a second oven, hire a helper). With land fixed, output depends only on labour: <var>Q</var> = <var>f</var>(labour).</p></div>
+<div><h4>Long run</h4><p><strong>Every input is variable.</strong> Planning five or ten years ahead, you can change land, buildings, staff and technology.</p></div>
+</div>
+<p>A second example used a student with a fixed four hours a day split between maths and statistics (2+2, 1+3 or 3+1): a fixed total input being re-allocated.</p>
+
+<h2 id="mp">Marginal product and diminishing returns</h2>
+<div class="summary"><span class="lab">Definition</span>
+<p><strong>Marginal product</strong> of an input is the change in output from one more unit of that input: MP = ΔQ ÷ Δinput. It is the slope of the output curve.</p></div>
+<p>The bakery example: a cookie shop with a fixed rent of ₹3,000 adds workers at ₹500 each.</p>
+<div class="tablewrap"><table>
+<thead><tr><th class="num">Workers</th><th class="num">Output (cookies/hr)</th><th class="num">Marginal product</th><th class="num">Store cost (fixed)</th><th class="num">Worker cost</th><th class="num">Total cost</th></tr></thead>
+<tbody>
+<tr><td class="num">0</td><td class="num">0</td><td class="num">–</td><td class="num">₹3,000</td><td class="num">₹0</td><td class="num">₹3,000</td></tr>
+<tr><td class="num">1</td><td class="num">50</td><td class="num">50</td><td class="num">₹3,000</td><td class="num">₹500</td><td class="num">₹3,500</td></tr>
+<tr><td class="num">2</td><td class="num">90</td><td class="num">40</td><td class="num">₹3,000</td><td class="num">₹1,000</td><td class="num">₹4,000</td></tr>
+<tr><td class="num">3</td><td class="num">120</td><td class="num">30</td><td class="num">₹3,000</td><td class="num">₹1,500</td><td class="num">₹4,500</td></tr>
+<tr><td class="num">4</td><td class="num">140</td><td class="num">20</td><td class="num">₹3,000</td><td class="num">₹2,000</td><td class="num">₹5,000</td></tr>
+<tr><td class="num">5</td><td class="num">150</td><td class="num">10</td><td class="num">₹3,000</td><td class="num">₹2,500</td><td class="num">₹5,500</td></tr>
+<tr><td class="num">6</td><td class="num">155</td><td class="num">5</td><td class="num">₹3,000</td><td class="num">₹3,000</td><td class="num">₹6,000</td></tr>
+</tbody><caption>From the board. Check one MP yourself: from 1 to 2 workers, (90 − 50) ÷ (2 − 1) = 40.</caption></table></div>
+<figure>
+<svg viewBox="0 0 680 290" role="img" aria-label="Left: total output rises from 0 to 155 cookies with flattening slope as workers go from 0 to 6. Right: marginal product bars fall 50, 40, 30, 20, 10, 5.">
+<text class="t" x="50" y="22" font-weight="600">Total output</text>
+<line class="gridl" x1="50" y1="52.5" x2="320" y2="52.5"/><line class="gridl" x1="50" y1="115" x2="320" y2="115"/><line class="gridl" x1="50" y1="177.5" x2="320" y2="177.5"/>
+<line class="ax" x1="50" y1="34" x2="50" y2="240"/><line class="ax" x1="50" y1="240" x2="325" y2="240"/>
+<polyline class="ink" points="50,240 93.3,177.5 136.7,127.5 180,90 223.3,65 266.7,52.5 310,46.25"/>
+<g class="dot"><circle cx="93.3" cy="177.5" r="3.5"/><circle cx="136.7" cy="127.5" r="3.5"/><circle cx="180" cy="90" r="3.5"/><circle cx="223.3" cy="65" r="3.5"/><circle cx="266.7" cy="52.5" r="3.5"/><circle cx="310" cy="46.25" r="3.5"/></g>
+<text class="ts" x="22" y="56">150</text><text class="ts" x="22" y="119">100</text><text class="ts" x="28" y="181">50</text>
+<g class="ts"><text x="90" y="256">1</text><text x="133" y="256">2</text><text x="176" y="256">3</text><text x="220" y="256">4</text><text x="263" y="256">5</text><text x="306" y="256">6</text></g>
+<text class="ts" x="160" y="278">Workers</text>
+<text class="t" x="390" y="22" font-weight="600">Marginal product</text>
+<line class="ax" x1="390" y1="34" x2="390" y2="240"/><line class="ax" x1="390" y1="240" x2="660" y2="240"/>
+<g fill="var(--demand)" opacity=".85">
+<rect x="396.5" y="60" width="30" height="180"/><rect x="439.5" y="96" width="30" height="144"/><rect x="482.5" y="132" width="30" height="108"/><rect x="525.5" y="168" width="30" height="72"/><rect x="568.5" y="204" width="30" height="36"/><rect x="611.5" y="222" width="30" height="18"/></g>
+<g class="t" text-anchor="middle"><text x="411.5" y="54">50</text><text x="454.5" y="90">40</text><text x="497.5" y="126">30</text><text x="540.5" y="162">20</text><text x="583.5" y="198">10</text><text x="626.5" y="216">5</text></g>
+<g class="ts" text-anchor="middle"><text x="411.5" y="256">1st</text><text x="454.5" y="256">2nd</text><text x="497.5" y="256">3rd</text><text x="540.5" y="256">4th</text><text x="583.5" y="256">5th</text><text x="626.5" y="256">6th</text></g>
+<text class="ts" x="480" y="278">Worker added</text>
+</svg>
+<figcaption>Output keeps rising but each extra worker adds less. The flattening curve on the left is the shrinking bars on the right.</figcaption>
+</figure>
+<div class="summary"><span class="lab">Law of diminishing marginal product (law of variable proportions)</span>
+<p>When you keep adding a variable input (workers) to a fixed input (one shop, one oven), each extra unit eventually adds less output than the one before.</p></div>
+<p><strong>Why it happens:</strong> the fixed resources become crowded. In the pizza shop with one big oven, extra workers stand around waiting their turn, so system efficiency falls. A student put it well in class: workers share the same limited resources, so beyond a point new workers barely raise output.</p>
+<p><strong>Related idea, diminishing marginal utility:</strong> the instructor’s unlimited-pizza story. The first slices give great satisfaction; each further slice gives less, until you do not want pizza for two months. Satisfaction per extra unit consumed falls.</p>
+<div class="note derived"><span class="lab">Connecting MP to cost</span><p>Each worker costs ₹500. So the extra cost of one more cookie is ₹500 ÷ MP: about ₹10 with the 1st worker, ₹12.5 with the 2nd, ₹16.7 with the 3rd, ₹25 with the 4th, ₹50 with the 5th and ₹100 with the 6th. <strong>Falling marginal product means rising marginal cost.</strong> These figures are my calculation from the class table, not stated in the session.</p></div>
+
+<h2 id="costs">The family of costs</h2>
+<div class="formula">
+<span class="eq">TC = TFC + TVC</span>
+<span class="eq">AFC = TFC ÷ Q &nbsp;&nbsp;&nbsp; AVC = TVC ÷ Q &nbsp;&nbsp;&nbsp; ATC (AC) = TC ÷ Q = AFC + AVC</span>
+<span class="eq">MC = ΔTC ÷ ΔQ</span>
+</div>
+<div class="tablewrap"><table>
+<thead><tr><th>Cost</th><th>Meaning in plain language</th><th>Class example</th></tr></thead>
+<tbody>
+<tr><td><strong>Fixed cost</strong> (TFC)</td><td>Does not change with output in the short run. You pay it even when producing nothing.</td><td>Rent, insurance, employee salaries, equipment maintenance. Netflix charges whether you watch or not.</td></tr>
+<tr><td><strong>Variable cost</strong> (TVC)</td><td>Rises with output; zero when output is zero.</td><td>A coaching room: 0 students, no AC; 5 students, a fan; 30 students, ACs on.</td></tr>
+<tr><td><strong>Average cost</strong></td><td>Cost per unit of output.</td><td>A shared cab to the airport: the fare is split among riders.</td></tr>
+<tr><td><strong>Marginal cost</strong></td><td>Extra cost of one more unit.</td><td>10 units cost ₹100, 11 cost ₹105, so MC = ₹5. Netflix: 1 user ₹199, 2 users ₹299, so MC = ₹100.</td></tr>
+</tbody></table></div>
+<h3>Average fixed cost always falls</h3>
+<p>Spread a fixed cost across more output and the per-unit share shrinks: a ₹10k room costs you ₹10k alone, ₹5k each with two people, ₹1k each with ten.</p>
+<p><strong>Idli batter shop in Chennai.</strong> Rent ₹15,000 per month.</p>
+<ul>
+<li>500 packets a month: AFC = 15,000 ÷ 500 = <strong>₹30 per packet</strong>.</li>
+<li>10,000 packets a month: AFC = 15,000 ÷ 10,000 = <strong>₹1.50 per packet</strong>.</li>
+</ul>
+<p>AFC approaches zero with huge output but never reaches it, because the rent must still be paid.</p>
+<figure class="small">
+<svg viewBox="0 0 460 290" role="img" aria-label="AFC curve falling steeply then flattening, a rectangular hyperbola. A shaded rectangle under point C shows total fixed cost equals AFC times quantity.">
+<defs><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="var(--demand)" stroke-width="2" opacity=".5"/></pattern></defs>
+<rect x="60" y="200" width="144" height="50" fill="url(#hatch)" stroke="var(--demand)" stroke-width="1"/>
+<line class="ax" x1="60" y1="20" x2="60" y2="250"/><line class="ax" x1="60" y1="250" x2="440" y2="250"/>
+<polyline class="ink" points="92.4,28 96,50 105,90 114,116.7 132,150 150,170 168,183.3 204,200 240,210 276,216.7 348,225 420,230"/>
+<circle class="dot" cx="204" cy="200" r="4.5"/>
+<text class="t" x="210" y="194" font-weight="600">C</text>
+<text class="ts" x="44" y="204">F</text><text class="ts" x="198" y="266">Q₁</text><text class="ts" x="50" y="266">O</text>
+<text class="t" x="400" y="222">AFC</text>
+<text class="td" x="88" y="230">TFC</text>
+<text class="ts" x="12" y="16">Cost</text><text class="ts" x="400" y="280">Output</text>
+</svg>
+<figcaption>AFC = FC ÷ Q traces a <strong>rectangular hyperbola</strong>. At any point C, TFC = AFC × Q = OF × OQ₁, the area of the rectangle OFCQ₁. Every such rectangle has the same area, because fixed cost is fixed.</figcaption>
+</figure>
+<h3>Worked cost table</h3>
+<p>Fixed cost is 20. Total variable cost is 10 at one unit and 18 at two units.</p>
+<div class="tablewrap"><table>
+<thead><tr><th class="num">Q</th><th class="num">TFC</th><th class="num">TVC</th><th class="num">TC</th><th class="num">AFC</th><th class="num">AVC</th><th class="num">ATC</th><th class="num">MC</th></tr></thead>
+<tbody>
+<tr><td class="num">0</td><td class="num">20</td><td class="num">0</td><td class="num">20</td><td class="num">–</td><td class="num">–</td><td class="num">–</td><td class="num">–</td></tr>
+<tr><td class="num">1</td><td class="num">20</td><td class="num">10</td><td class="num">30</td><td class="num">20</td><td class="num">10</td><td class="num">30</td><td class="num">10</td></tr>
+<tr><td class="num">2</td><td class="num">20</td><td class="num">18</td><td class="num">38</td><td class="num">10</td><td class="num">9</td><td class="num">19</td><td class="num">8</td></tr>
+</tbody><caption>From class. The ATC column is my addition (TC ÷ Q). At Q = 0 the averages are undefined (division by zero). The instructor stopped at two rows for time.</caption></table></div>
+<div class="note trap"><span class="lab">Exam trap, raised by a student in class</span><p>MC from 1 to 2 units is (38 − 30) ÷ (2 − 1) = <strong>8</strong>, not 8 ÷ 2 = 4. The denominator is the <em>change</em> in quantity, which is one unit. Also, firms give you TFC and TVC; AFC, AVC, ATC and MC are <em>derived</em> from them.</p></div>
+</section>
+
+<section class="part" id="part-c">
+<h2 class="part-title">Part C: Live sessions 1–2: choices and profit</h2>
+
+<h2 id="oc">Scarcity, opportunity cost and sunk cost</h2>
+<div class="summary"><span class="lab">The universal problem</span>
+<p><strong>Scarcity.</strong> Resources are limited, so you must make <strong>choices</strong>, and every choice is a <strong>trade-off</strong> (buy a car or go on vacation).</p></div>
+<div class="formula"><span class="eq">Scarcity + priorities and satisfaction = constant trade-off</span></div>
+<p>For a data scientist the usual constraints are <strong>time</strong>, <strong>resources</strong> (computational power, tools, storage) and <strong>data</strong>.</p>
+<div class="summary"><span class="lab">Opportunity cost</span>
+<p>The value of the <strong>next best alternative you give up</strong> when you make a choice. The instructor also called it the “ghost path”: the road you did not take.</p></div>
+<ul>
+<li>Attending the economics session (option A) means giving up time on job assignments (option B). The value of B is the opportunity cost of A.</li>
+<li>Studying a BS degree full-time means giving up a ₹15 lakh/year salary. Studying part-time while working might mean a reduced salary (₹12 lakh was the example) or lower performance in both.</li>
+<li>A student’s example: a $200 trip vs a $50 night of Netflix at home. Choosing one gives up the other.</li>
+</ul>
+<div class="summary"><span class="lab">Sunk cost</span>
+<p>Money already spent that <strong>cannot be recovered</strong>, whatever you decide next.</p></div>
+<ul>
+<li>Degree fees already paid when you quit the programme.</li>
+<li>A non-refundable flight ticket you then cancel.</li>
+<li>An IPL team’s auction money for a player who underperforms. The team cannot get it back, but at the next auction it has a fresh choice.</li>
+</ul>
+<div class="cols">
+<div><h4>Opportunity cost</h4><p>A <em>hidden</em> cost of a choice <em>still open</em> to you. It belongs in decisions.</p></div>
+<div><h4>Sunk cost</h4><p>A cost <em>already lost</em>. It should not change your future decision.</p></div>
+</div>
+
+<h2 id="fraud">Case: choosing a fraud-detection model</h2>
+<p>A bank wants an AI model that predicts whether a loan applicant is a <strong>defaulter</strong> or <strong>eligible</strong>. The constraint is one month to build it, and the project pays ₹12 lakh. After research, the company has two options.</p>
+<div class="tablewrap"><table>
+<thead><tr><th></th><th>Option A: complex deep learning</th><th>Option B: logistic regression</th></tr></thead>
+<tbody>
+<tr><td>Accuracy</td><td>95%</td><td>85% on the board (80% spoken)</td></tr>
+<tr><td>Time to build</td><td>4 weeks</td><td>1 week</td></tr>
+<tr><td>Compute</td><td>Expensive GPUs, large storage, high compute</td><td>Minimal</td></tr>
+<tr><td>Interpretability</td><td>Black box: you cannot say why someone was flagged</td><td>Highly interpretable</td></tr>
+<tr><td>Cost to deliver</td><td>₹10 lakh</td><td>₹5 lakh</td></tr>
+<tr><td>Profit on ₹12 lakh</td><td>₹2 lakh</td><td>₹7 lakh</td></tr>
+</tbody></table></div>
+<p><strong>Choose A</strong> and you gain about 10 points of accuracy, but give up interpretability, three weeks of slack to refine the model, and budget: you forgo ₹7 lakh of profit to earn ₹2 lakh, a net ₹5 lakh worse.</p>
+<p><strong>Choose B</strong> and you keep time, money and interpretability, but lose about 10 points of accuracy. If the model misses defaulters, they get loans and the bank can lose lakhs of rupees.</p>
+<p>The decision is a trade-off between your <strong>priorities</strong> (an accurate system or a cheaper, faster one) under scarcity. When a student asked how deep to go in such analysis, the instructor’s answer was: in real projects the client specifies the required accuracy and budget, so let the constraints guide how deep you go.</p>
+<div class="note unsure"><span class="lab">Accuracy figure</span><p>The transcript says option B is 80% accurate; the board says 85%. The instructor later talks of losing “10% of your accuracy”, which matches 85%. Use 85% unless your course materials say otherwise.</p></div>
+
+<h2 id="profit">Explicit and implicit cost; economic vs accounting profit</h2>
+<div class="cols">
+<div><h4>Explicit cost</h4><p>An <strong>actual cash outflow</strong>: money paid out to run the business. Wages, office rent, raw materials, cloud computing, software licences, the daily tea and coffee bill.</p></div>
+<div><h4>Implicit cost</h4><p>The <strong>value given up</strong> that involves no cash payment. Your own time and effort (the salary you left to found the company), rent you could have earned on land you own and use yourself, your own laptop used for the business.</p></div>
+</div>
+<p>Two everyday examples from class. Buying flour for a cookie shop is an explicit cost, and the same money could instead have bought a machine, hired a worker or bought utensils. Making chapati has no cash cost for your time, but the hours spent collecting utensils, cleaning and making dough could have earned freelance income or been spent with friends. That forgone value is implicit.</p>
+<div class="note trap"><span class="lab">Exam trap</span><p>Taxes and hidden fees (like a delivery app’s handling charge) are <strong>explicit</strong>: they are cash you pay, even if they are easy to overlook. “Implicit” means no money changes hands, not “hard to spot.”</p></div>
+
+<h3>Economist vs accountant</h3>
+<div class="tablewrap"><table>
+<thead><tr><th></th><th>Economist</th><th>Accountant</th></tr></thead>
+<tbody>
+<tr><td>Focus</td><td>How the firm makes production and pricing decisions</td><td>Tracking money flowing in and out</td></tr>
+<tr><td>Costs counted</td><td>Explicit + implicit</td><td>Explicit only (bills, out-of-pocket money)</td></tr>
+<tr><td>Alternatives</td><td>Includes the value of the next best alternative sacrificed</td><td>Not considered</td></tr>
+<tr><td>Basis</td><td>Actual wear and tear and capital cost, over a multi-year view</td><td>Tax rules and accounting standards</td></tr>
+</tbody></table></div>
+<div class="formula">
+<span class="eq">Accounting profit = total revenue − explicit cost</span>
+<span class="eq">Economic profit = total revenue − (explicit cost + implicit cost)</span>
+</div>
+<p>The instructor called this topic the <strong>profit illusion</strong>: a business can look profitable in the books while it is actually a worse use of your time and money than the alternative.</p>
+
+<h3>Worked case 1: from data scientist to founder</h3>
+<p>Harsh (the instructor used a name from the chat) earned a ₹15 lakh package as a data scientist in Bangalore, quit, and founded a demand-forecasting consultancy for local retailers. After one year, revenue was ₹25 lakh.</p>
+<div class="tablewrap"><table>
+<thead><tr><th>Item</th><th class="num">₹ lakh</th></tr></thead>
+<tbody>
+<tr><td>Total revenue</td><td class="num">25.0</td></tr>
+<tr><td>Explicit: rented co-working space</td><td class="num">1.5</td></tr>
+<tr><td>Explicit: software licences</td><td class="num">1.0</td></tr>
+<tr><td>Explicit: cloud computing</td><td class="num">2.0</td></tr>
+<tr><td><strong>Total explicit cost</strong></td><td class="num"><strong>4.5</strong></td></tr>
+<tr><td><strong>Accounting profit</strong> (25 − 4.5)</td><td class="num"><strong>20.5</strong></td></tr>
+<tr><td>Implicit: salary given up</td><td class="num">15.0</td></tr>
+<tr><td>Explicit + implicit</td><td class="num">19.5</td></tr>
+<tr><td><strong>Economic profit</strong> (25 − 19.5)</td><td class="num"><strong>5.5</strong></td></tr>
+</tbody></table></div>
+<figure class="small">
+<svg viewBox="0 0 560 300" role="img" aria-label="Two stacked bars each totalling 25 lakh revenue. Economist bar: explicit 4.5, implicit 15, economic profit 5.5. Accountant bar: explicit 4.5, accounting profit 20.5.">
+<line class="ax" x1="80" y1="260" x2="480" y2="260"/>
+<rect x="130" y="224" width="110" height="36" fill="var(--supply)" opacity=".75"/>
+<rect x="130" y="104" width="110" height="120" fill="var(--supply)" opacity=".35"/>
+<rect x="130" y="60" width="110" height="44" fill="var(--good)" opacity=".7"/>
+<rect x="320" y="224" width="110" height="36" fill="var(--supply)" opacity=".75"/>
+<rect x="320" y="60" width="110" height="164" fill="var(--good)" opacity=".45"/>
+<g class="t" text-anchor="middle">
+<text x="185" y="247">Explicit 4.5</text><text x="185" y="168">Implicit 15</text><text x="185" y="87" font-weight="600">EP 5.5</text>
+<text x="375" y="247">Explicit 4.5</text><text x="375" y="146" font-weight="600">AP 20.5</text>
+</g>
+<g class="t" text-anchor="middle" font-weight="600"><text x="185" y="282">Economist</text><text x="375" y="282">Accountant</text></g>
+<line class="guide" x1="80" y1="60" x2="480" y2="60"/><text class="ts" x="484" y="64">TR 25</text>
+<text class="ts" x="20" y="20">₹ lakh</text>
+</svg>
+<figcaption>Same revenue, two different splits. The ₹15 lakh salary given up is invisible to the accountant, which is where the “illusion” comes from.</figcaption>
+</figure>
+<div class="note unsure"><span class="lab">Two things to note</span><ul>
+<li>On the board the revenue figure looks like “28” in places, but every calculation (25 − 4.5 = 20.5 and 25 − 19.5 = 5.5) uses ₹25 lakh.</li>
+<li>The instructor labels the whole ₹19.5 lakh (explicit + implicit) as “opportunity cost.” Many textbooks call this total the <em>economic cost</em> and reserve “opportunity cost” for the forgone alternative. The arithmetic is the same.</li></ul></div>
+
+<h3>Worked case 2: a loss hidden by the books</h3>
+<p>A data consultancy earns ₹50,000/month, pays ₹20,000/month in rent and other expenses, and its founder gives up ₹50,000/month in alternative earnings.</p>
+<div class="formula">
+<span class="eq">Accounting profit = 50,000 − 20,000 = ₹30,000 per month</span>
+<span class="eq">Economic profit = 50,000 − (20,000 + 50,000) = −₹20,000 per month</span>
+</div>
+<p>The books show a profit, yet the founder would be ₹20,000 a month better off in the old job.</p>
+
+<h3>Worked case 3: assembled computers</h3>
+<p>A vendor is paid ₹4,000 per assembled computer (total revenue) and spends ₹1,500 on parts (explicit cost). Instead, he could teach assembly at an ed-tech STEM start-up for ₹2,000 (implicit cost).</p>
+<div class="formula">
+<span class="eq">Accounting profit = 4,000 − 1,500 = ₹2,500</span>
+<span class="eq">Economic profit = 4,000 − (1,500 + 2,000) = ₹500</span>
+</div>
+
+<h3>Reading the sign of economic profit</h3>
+<div class="tablewrap"><table>
+<thead><tr><th>Economic profit</th><th>What it means</th><th>What to do</th></tr></thead>
+<tbody>
+<tr><td><strong>= 0</strong></td><td>Stable, in equilibrium. Every cost, including opportunity cost, is covered: the break-even condition.</td><td>Keep going; little room to expand. Firms here often say “we have no business problem.”</td></tr>
+<tr><td><strong>&gt; 0</strong></td><td>Earning more than the next best use of your resources.</td><td>Expand, launch new products, increase supply. Room to cut prices to compete. Also attracts new firms.</td></tr>
+<tr><td><strong>&lt; 0</strong></td><td>Resources would earn more elsewhere.</td><td>Long-run sustainability is doubtful; consider exiting. The instructor linked this to why many start-ups fail.</td></tr>
+</tbody></table></div>
+<p>The instructor’s advice: run this analysis regularly (say every six months) and compare periods. And when a student asked how to put a number on time or effort, the answer was to price the alternative (₹5,000 an hour of freelancing, for example), while recognising that some decisions are strategic rather than purely mathematical. He mentioned game theory as where that thinking goes further.</p>
+<div class="note unsure"><span class="lab">Where “break-even” belongs</span><p>The board writes “break-even condition” under EP = 0, which matches standard economics. In the spoken transcript the instructor also says “break-even” while describing positive EP, meaning the firm has passed break-even. Remember: EP = 0 <em>is</em> break-even in the economic sense.</p></div>
+
+<h2 id="ppf">Production possibility frontier (PPF)</h2>
+<div class="summary"><span class="lab">Definition, built the way the instructor built it</span>
+<p>The PPF is a <strong>graphical representation</strong> of what? Of the <strong>possible combinations of goods or services</strong> a firm can produce. Why? To achieve <strong>maximum economic efficiency</strong>, that is, maximum use of available resources and so economic growth.</p></div>
+<p>Also called the <strong>production possibility curve</strong> or <strong>transformation possibility curve</strong>. Inputs (land, machines, workers) are fixed. Producing more of one good means moving resources away from the other: a toy-and-cycle factory with 50 workers split 25/25 must decide how many toys to sacrifice for each extra cycle. A farmer splitting fixed land between wheat and corn faces the same question. Only two goods are shown because the graph is 2D.</p>
+
+<h3>Example: custom AI models vs BI dashboards</h3>
+<p>A company has 10 people, 1,600 working hours a month and two products.</p>
+<div class="tablewrap"><table>
+<thead><tr><th></th><th>Product X: custom AI models</th><th>Product Y: Power BI dashboards</th></tr></thead>
+<tbody>
+<tr><td>Work</td><td>Supply-chain optimisation, fraud detection, dynamic pricing</td><td>Showcasing live data and analysis</td></tr>
+<tr><td>Resources needed</td><td>High: compute and highly skilled scientists</td><td>Low: learnable in a few hours</td></tr>
+<tr><td>Unit price</td><td>₹15 lakh</td><td>₹2.5 lakh</td></tr>
+</tbody></table></div>
+<div class="tablewrap"><table>
+<thead><tr><th>Point</th><th class="num">AI models (X)</th><th class="num">Dashboards (Y)</th><th class="num">Dashboards given up for this extra model</th></tr></thead>
+<tbody>
+<tr><td>A</td><td class="num">0</td><td class="num">40</td><td class="num">–</td></tr>
+<tr><td>B</td><td class="num">1</td><td class="num">38</td><td class="num">2</td></tr>
+<tr><td>C</td><td class="num">2</td><td class="num">33</td><td class="num">5</td></tr>
+<tr><td>D</td><td class="num">3</td><td class="num">25</td><td class="num">8</td></tr>
+<tr><td>E</td><td class="num">4</td><td class="num">14</td><td class="num">11</td></tr>
+<tr><td>F</td><td class="num">5</td><td class="num">0</td><td class="num">14</td></tr>
+</tbody><caption>Points from the board. The last column is ΔY at each step (my calculation).</caption></table></div>
+<figure>
+<svg viewBox="0 0 520 340" role="img" aria-label="Concave PPF from 40 dashboards and 0 AI models down to 5 AI models and 0 dashboards, through points A to F. A point inside is marked underutilised, a point outside unachievable. Between C and D, gaining one AI model costs eight dashboards.">
+<line class="gridl" x1="60" y1="70" x2="460" y2="70"/><line class="gridl" x1="60" y1="152.5" x2="460" y2="152.5"/><line class="gridl" x1="60" y1="235" x2="460" y2="235"/>
+<line class="ax" x1="60" y1="30" x2="60" y2="290"/><line class="ax" x1="60" y1="290" x2="470" y2="290"/>
+<path class="ink" d="M60,70 C95,72 125,78 125,81 S165,95 190,108.5 S235,135 255,152.5 S300,190 320,213 S370,265 385,290"/>
+<line class="guide" x1="190" y1="108.5" x2="255" y2="108.5"/><line class="guide" x1="255" y1="108.5" x2="255" y2="152.5"/>
+<text class="tg" x="200" y="101">+1 AI model</text><text class="tsu" x="262" y="134">−8 dashboards</text>
+<g class="dot"><circle cx="60" cy="70" r="4.5"/><circle cx="125" cy="81" r="4.5"/><circle cx="190" cy="108.5" r="4.5"/><circle cx="255" cy="152.5" r="4.5"/><circle cx="320" cy="213" r="4.5"/><circle cx="385" cy="290" r="4.5"/></g>
+<g class="t" font-weight="600"><text x="66" y="62">A</text><text x="124" y="72">B</text><text x="176" y="102">C</text><text x="240" y="168">D</text><text x="328" y="210">E</text><text x="390" y="282">F</text></g>
+<circle cx="170" cy="200" r="5" fill="var(--warn)"/><text class="ts" x="96" y="222">inside: underutilised</text>
+<circle cx="330" cy="120" r="5" fill="var(--supply)"/><text class="ts" x="338" y="116">outside: unachievable</text>
+<text class="ts" x="38" y="74">40</text><text class="ts" x="38" y="156">25</text><text class="ts" x="38" y="239">10</text>
+<g class="ts" text-anchor="middle"><text x="125" y="306">1</text><text x="190" y="306">2</text><text x="255" y="306">3</text><text x="320" y="306">4</text><text x="385" y="306">5</text></g>
+<text class="ts" x="66" y="40">Dashboards (Y)</text><text class="ts" x="380" y="330">AI models (X)</text>
+</svg>
+<figcaption>Points on the curve use all resources. Inside means resources sit idle; outside cannot be reached with current resources. The curve is bowed outward (concave): each extra AI model costs more dashboards than the last.</figcaption>
+</figure>
+<p><strong>Why the curve bends instead of being a straight line:</strong> resources are not equally good at both jobs. AI models need disproportionately more RAM and GPU (a student’s answer), and a dashboard expert moved onto AI work is slower than an AI specialist. A pizza expert asked to make burgers takes longer.</p>
+<h3>Opportunity cost, MRT and MOC on the PPF</h3>
+<p>Moving from C (2 models, 33 dashboards) to D (3 models, 25 dashboards) gains 1 AI model and sacrifices 8 dashboards. In money:</p>
+<div class="formula">
+<span class="eq">Gain: 1 × ₹15 lakh = ₹15 lakh &nbsp;&nbsp;&nbsp; Given up: 8 × ₹2.5 lakh = ₹20 lakh</span>
+<span class="eq">Net effect of the move: −₹5 lakh</span>
+</div>
+<div class="formula">
+<span class="eq">Marginal rate of transformation: MRT = ΔY ÷ ΔX</span>
+<span class="eq">Marginal opportunity cost: MOC = change in sacrifice ÷ change in gain</span>
+</div>
+<p>MRT is the exact number of dashboards that must be given up to make one more AI model at a given point. The slope of the PPF <em>is</em> the opportunity cost, so you can read it straight off the graph.</p>
+<div class="note derived"><span class="lab">Which point is best?</span><p>The instructor described B (1X + 38Y) and E (4X + 14Y) as optimal combinations. More precisely, <strong>every point on the curve is efficient</strong>; which one is best depends on demand and prices. Using the class prices, revenue is ₹100L at A, ₹110L at B, ₹112.5L at C, ₹107.5L at D, ₹95L at E and ₹75L at F, so C would maximise revenue. This revenue comparison is mine, not from class, and it ignores cost differences between the products.</p></div>
+
+<h3>Example: guns vs cheese</h3>
+<p>The PPF idea came out of wartime planning: weapons vs food.</p>
+<div class="tablewrap"><table>
+<thead><tr><th>Point</th><th class="num">Guns</th><th class="num">Cheese</th><th class="num">MOC (guns per extra cheese)</th><th>MRT</th></tr></thead>
+<tbody>
+<tr><td>A</td><td class="num">21</td><td class="num">0</td><td class="num">–</td><td>–</td></tr>
+<tr><td>B</td><td class="num">20</td><td class="num">1</td><td class="num">1</td><td>1G : 1C</td></tr>
+<tr><td>C</td><td class="num">18</td><td class="num">2</td><td class="num">2</td><td>2G : 1C</td></tr>
+<tr><td>D</td><td class="num">15</td><td class="num">3</td><td class="num">3</td><td>3G : 1C</td></tr>
+<tr><td>E</td><td class="num">11</td><td class="num">4</td><td class="num">4</td><td>4G : 1C</td></tr>
+<tr><td>F</td><td class="num">6</td><td class="num">5</td><td class="num">5</td><td>5G : 1C</td></tr>
+<tr><td>G</td><td class="num">0</td><td class="num">6</td><td class="num">6</td><td>6G : 1C</td></tr>
+</tbody><caption>From the board. The rising MOC is the law of increasing opportunity cost, and it is what makes the PPF bow outward.</caption></table></div>
+<div class="note unsure"><span class="lab">Starting value</span><p>The instructor says “25 guns” when introducing the example, but the board table and graph start at 21. The table above follows the board, which is internally consistent.</p></div>
+
+<h3>Efficiency on the PPF</h3>
+<div class="formula"><span class="eq">Efficiency = output ÷ input</span></div>
+<div class="tablewrap"><table>
+<thead><tr><th>Position</th><th>Efficiency</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td>On the curve</td><td>100%</td><td>No waste, full use of resources</td></tr>
+<tr><td>Inside</td><td>&lt; 100%</td><td>Underutilisation: idle or crowded workers (the overcrowded cloud kitchen), wrong skills in the wrong job. Persisting here can push economic profit negative.</td></tr>
+<tr><td>Outside</td><td>&gt; 100%</td><td>Over-utilisation: unachievable now. Needs extra resources, technical advancement or innovation.</td></tr>
+</tbody></table></div>
+
+<h3>Shifts and rotations</h3>
+<figure>
+<svg viewBox="0 0 640 270" role="img" aria-label="Left: a PPF with an outward shift for growth and an inward shift for lost resources. Right: rotations where the Y intercept stays fixed and the X intercept moves out or in.">
+<text class="t" x="50" y="22" font-weight="600">Shift</text>
+<line class="ax" x1="50" y1="30" x2="50" y2="220"/><line class="ax" x1="50" y1="220" x2="270" y2="220"/>
+<path class="ink" d="M50,70 A150,150 0 0 1 200,220"/>
+<path class="sup" d="M50,35 A185,185 0 0 1 235,220" stroke-dasharray="7 5" style="stroke:var(--good)"/>
+<path class="sup" d="M50,105 A115,115 0 0 1 165,220" stroke-dasharray="3 4"/>
+<text class="tg" x="190" y="70">rightward: growth</text>
+<text class="tsu" x="62" y="200">leftward: loss</text>
+<text class="ts" x="54" y="250">Good X →</text><text class="ts" x="8" y="40">Y</text>
+<text class="t" x="370" y="22" font-weight="600">Rotation</text>
+<line class="ax" x1="370" y1="30" x2="370" y2="220"/><line class="ax" x1="370" y1="220" x2="610" y2="220"/>
+<path class="ink" d="M370,70 A150,150 0 0 1 520,220"/>
+<path class="sup" d="M370,70 A200,150 0 0 1 570,220" stroke-dasharray="7 5" style="stroke:var(--good)"/>
+<path class="sup" d="M370,70 A105,150 0 0 1 475,220" stroke-dasharray="3 4"/>
+<circle class="dot" cx="370" cy="70" r="4.5"/>
+<text class="ts" x="378" y="62">Y fixed</text>
+<text class="tg" x="540" y="238">X out</text><text class="tsu" x="440" y="238">X in</text>
+<text class="ts" x="374" y="258">Good X →</text>
+</svg>
+<figcaption>A shift changes capacity for both goods. A rotation changes capacity for one good while the other’s stays the same.</figcaption>
+</figure>
+<div class="cols">
+<div><h4>Rightward (outward) shift</h4><p>More resources or better technology: upgrades, new investment, growth of resources. The instructor’s link: start-ups raise <strong>seed funding</strong> to push their PPF outward.</p></div>
+<div><h4>Leftward (inward) shift</h4><p>Lost capacity: employees on leave or quitting, machine breakdown, a supply-chain failure. The firm can now produce fewer units of both goods.</p></div>
+</div>
+<p><strong>Rotation:</strong> keep the resources for product Y fixed and change only product X’s capacity (or the reverse). The curve pivots around the fixed intercept, outward if X capacity grows and inward if it shrinks.</p>
+<h3>Assumptions behind any PPF analysis</h3>
+<ol>
+<li>Inputs are fixed (a fixed plot of land, a fixed team).</li>
+<li>Resources are fully utilised.</li>
+<li>Technology and other conditions are constant.</li>
+</ol>
+<p>If you do a six-monthly PPF analysis for a company, check these hold over the period.</p>
+<h3>Using the PPF in business analysis</h3>
+<ol>
+<li><strong>Identify the trade-offs:</strong> which products can be scaled down to free resources.</li>
+<li><strong>Achieve maximum efficiency:</strong> reallocate inputs to stay on the curve.</li>
+<li><strong>Evaluate the opportunity cost</strong> of each reallocation.</li>
+<li><strong>Plan economic growth:</strong> what investment would shift the curve outward.</li>
+</ol>
+<p>A working professional in the session summarised the payoff: if a planned product mix falls inside the curve, you can tell before spending anything that it will not make money.</p>
+<h3>Excel demos shown at the end of session 2</h3>
+<p>The instructor briefly showed two spreadsheets that were <strong>not</strong> among the uploaded files:</p>
+<ul>
+<li><strong>A campus tea stall’s cost data</strong> (name unclear in the transcript): daily cups sold, staff of 0–4, fixed cost of 200 every day, variable cost, total cost, AFC, AVC, total revenue and net profit. Weekdays sold far more than weekends, and real cost data was not as tidy as the theory.</li>
+<li><strong>A bike company’s PPF</strong>: mountain bikes vs commuter bikes with ΔX, ΔY, MRT and opportunity cost columns. One efficient point mentioned was 450 mountain bikes and 130 commuter bikes.</li>
+</ul>
+</section>
+
+<section class="part" id="part-d">
+<h2 class="part-title">Part D: Excel workbooks</h2>
+<h2 id="excel">Formulas in the Week 2 workbooks</h2>
+<div class="note unsure"><span class="lab">Context</span><p>None of the transcripts explain these workbooks. At the end of session 2 the instructor said Excel would be taught <em>after</em> the demand-and-supply and marketing sessions, so these files may be advance or reference material. Everything below is read from the formulas and data in the files.</p></div>
+
+<h3>SUM, AVERAGE, percentage of total, running total</h3>
+<p>Sheet <code>Sum and Auto Sum</code>: monthly sales (Jan–Dec) for products like Tablet, Speaker, Webcam, AI Chip, AI Software and AI Cloud, by region.</p>
+<pre><code>Row total              =SUM(D5:O5)
+Row average            =AVERAGE(D5:O5)
+Share of grand total   =SUM(D5:O5)/SUM($D$5:$O$15)
+Monthly total          =SUM(D5:D15)
+Running total          =SUM($D$5:D15)   (copy right: E15, F15 ...)</code></pre>
+<p>The <code>$</code> signs make an <strong>absolute reference</strong>: <code>$D$5:$O$15</code> stays put when copied, so every row divides by the same grand total. In the running total only the start cell is locked, so the range grows as you copy across.</p>
+
+<h3>SUMIF and SUMIFS</h3>
+<pre><code>One condition    =SUMIF(range, criteria, sum_range)
+                 =SUMIF(A19:A29, "Tablet", P5:P15)
+
+Many conditions  =SUMIFS(sum_range, criteria_range1, criteria1, criteria_range2, criteria2)
+                 =SUMIFS(P5:P15, A19:A29, "Tablet", B19:B29, "East")</code></pre>
+<div class="note trap"><span class="lab">Argument order trap</span><p>In SUMIF the range to add comes <strong>last</strong>. In SUMIFS it comes <strong>first</strong>. Mixing these up is the most common error with these functions.</p></div>
+<p>The flight-data working sheet (about 10,700 flights) uses SUMIFS to total ticket price by source and destination:</p>
+<pre><code>As in the file   =SUMIFS(K6:K10688, C6:C10688, P6, D6:D10688, Q6)
+Next row down    =SUMIFS(K7:K10689, C7:C10689, P7, D7:D10689, Q7)
+Safer            =SUMIFS($K$6:$K$10688, $C$6:$C$10688, P6, $D$6:$D$10688, Q6)</code></pre>
+<div class="note derived"><span class="lab">Watch the drifting ranges</span><p>Because the ranges in the file are not locked with <code>$</code>, each copied row starts one row lower and silently drops a flight from the top. Lock the data ranges and leave only the criteria cells (<code>P6</code>, <code>Q6</code>) relative.</p></div>
+
+<h3>Pivot tables</h3>
+<ul>
+<li><strong>Flight data:</strong> sum of price, airline in rows, source city in columns, shown as a share of the grand total. Jet Airways accounts for about 46% of the total price value, Air India about 17%, Multiple carriers about 13% and IndiGo about 12%.</li>
+<li><strong>Employee data:</strong> sum of salary by department (grand total ₹15,52,426; Sales highest at ₹2,86,826), and a region × branch × department breakdown as percentages with a 3D pie chart.</li>
+</ul>
+<div class="note derived"><span class="lab">Data-quality lesson in the file</span><p>The employee pivot lists both “mkt” and “Mktg” as separate departments. A pivot table groups exact text, so inconsistent labels split one department in two. Clean categories before you summarise.</p></div>
+
+<h3>Flash Fill</h3>
+<p>Sheet <code>FlashFill Magic</code>. Type the result you want for the first row, then press <kbd>Ctrl</kbd> + <kbd>E</kbd> (or Data › Flash Fill) and Excel copies the pattern.</p>
+<ul>
+<li>Split an IFSC-style code such as <code>IBXYZC2343454A</code> into its parts.</li>
+<li>Split <code>110062,delhi,9999999999</code> into PIN, city and phone.</li>
+<li>Join first, middle and last names into a properly capitalised full name (<code>Ram</code>, <code>SinGh</code>, <code>Tewatia</code> → “Ram Singh Tewatia”).</li>
+</ul>
+<p>The sample shows “Sonu  Sharma” and “Amit  Jain” with double spaces where the middle name is missing or the input had stray spaces. A formula approach handles this reliably: <code>=PROPER(TRIM(A15&amp;" "&amp;B15&amp;" "&amp;C15))</code>.</p>
+
+<h3>Loan EMI with PMT, IPMT and PPMT</h3>
+<p>Example in the file: principal ₹50,00,000, 12% annual interest, 20 years.</p>
+<pre><code>EMI                       =PMT(B6/12, B7*12, B5)
+Interest in month n       =IPMT(B6/12, n, B7*12, B5)
+Principal in month n      =PPMT(B6/12, n, B7*12, B5)
+Check                     IPMT + PPMT = PMT</code></pre>
+<ul>
+<li>Divide the annual rate by 12 and multiply years by 12, because payments are monthly.</li>
+<li>Results come out <strong>negative</strong> because Excel treats a payment as cash flowing out.</li>
+<li>EMI ≈ ₹55,054. In month 1, interest = ₹50,000 (1% of ₹50 lakh) and principal repaid ≈ ₹5,054. Early EMIs are mostly interest.</li>
+</ul>
+
+<h3>VLOOKUP</h3>
+<pre><code>=VLOOKUP(lookup_value, table_array, col_index_num, [range_lookup])
+=VLOOKUP("880-10032", $A$2:$E$8, 2, FALSE)    → Last name for that ID</code></pre>
+<p>Use <code>FALSE</code> (or <code>0</code>) for an exact match. The lookup value must be in the <strong>first column</strong> of the table.</p>
+<div class="note derived"><span class="lab">The basic VLOOKUP sheet needs fixing</span><p>The practice formulas in <code>VLookUp (Vertical Lookup)</code> omit the fourth argument, so Excel does an approximate match on IDs that are not sorted, and the table range shifts in each column (<code>A2:F8</code>, <code>B2:G8</code> …). They look like work in progress. The correct pattern is <code>=VLOOKUP($A12, $A$2:$E$8, 2, FALSE)</code>, changing only the column number.</p></div>
+<h4>Advanced: let the formula pick the column</h4>
+<p>From <code>Excel_Advanced_VLOOKUP_Formula.xlsx</code>:</p>
+<pre><code>Across a row   =VLOOKUP($A$4, $A$7:$H$37, COLUMN(), 0)
+Down a column  =VLOOKUP($M$1, $A$7:$H$37, ROW(), 0)</code></pre>
+<p><code>COLUMN()</code> returns the current column number (2 in column B, 3 in C …) and <code>ROW()</code> the current row number. Laid out to line up with the table, one formula copied across or down returns First name, Last name, Department and so on with no manual column numbers. Type a new employee code in <code>A4</code> or <code>M1</code> and the whole record updates. The trick depends on the layout: move the formulas and the column numbers break.</p>
+</section>
+
+<section class="part" id="part-e">
+<h2 class="part-title">Part E: Review</h2>
+<h2 id="formulas">Formula sheet</h2>
+<div class="tablewrap"><table>
+<thead><tr><th>Concept</th><th>Formula</th><th>Remember</th></tr></thead>
+<tbody>
+<tr><td>Slope</td><td>Δy ÷ Δx</td><td>Positive: upward; negative: downward</td></tr>
+<tr><td>Price elasticity of demand</td><td>%ΔQd ÷ %ΔP</td><td>&gt; 1 elastic, &lt; 1 inelastic, = 1 unit</td></tr>
+<tr><td>Price elasticity of supply</td><td>%ΔQs ÷ %ΔP</td><td>Same thresholds; grows with time and spare capacity</td></tr>
+<tr><td>Total revenue</td><td>P × Q</td><td>Elastic: price ↑ → TR ↓. Inelastic: price ↑ → TR ↑</td></tr>
+<tr><td>Profit</td><td>TR − cost of production</td><td></td></tr>
+<tr><td>Production function</td><td>Q = f(K, L); Cobb–Douglas Q = x₁<sup>α</sup>x₂<sup>β</sup></td><td>Short run: at least one input fixed</td></tr>
+<tr><td>Marginal product</td><td>ΔQ ÷ Δinput</td><td>Eventually diminishes</td></tr>
+<tr><td>Total cost</td><td>TFC + TVC</td><td>FC paid even at zero output</td></tr>
+<tr><td>Average costs</td><td>AFC = TFC/Q, AVC = TVC/Q, ATC = TC/Q = AFC + AVC</td><td>AFC always falls (rectangular hyperbola)</td></tr>
+<tr><td>Marginal cost</td><td>ΔTC ÷ ΔQ</td><td>Denominator is the change in Q</td></tr>
+<tr><td>Accounting profit</td><td>TR − explicit cost</td><td></td></tr>
+<tr><td>Economic profit</td><td>TR − (explicit + implicit)</td><td>= 0 break-even; &gt; 0 expand; &lt; 0 exit</td></tr>
+<tr><td>MRT</td><td>ΔY ÷ ΔX</td><td>Slope of the PPF</td></tr>
+<tr><td>Marginal opportunity cost</td><td>Δsacrifice ÷ Δgain</td><td>Rises along a bowed-out PPF</td></tr>
+<tr><td>Efficiency</td><td>Output ÷ input</td><td>On PPF 100%, inside &lt; 100%, outside &gt; 100%</td></tr>
+</tbody></table></div>
+
+<h2 id="practice">Practice questions</h2>
+<p>Try each one before opening the answer.</p>
+<details class="q"><summary>A café raises coffee prices by 8% and sells 4% fewer cups. Is demand elastic or inelastic, and what happens to revenue?</summary><div class="ans"><p>PED = 4 ÷ 8 = 0.5, which is less than 1, so demand is inelastic. Revenue rises, because quantity falls by a smaller percentage than price rises.</p></div></details>
+<details class="q"><summary>The government taxes cigarettes and the price rises. Separately, it runs anti-smoking ads. Which causes a shift of the demand curve?</summary><div class="ans"><p>The ads. They change preferences, so demand shifts left. The tax changes the price, which is a movement along the existing curve.</p></div></details>
+<details class="q"><summary>In the cookie table, what is the marginal product of the 4th worker, and why is it smaller than the 3rd’s?</summary><div class="ans"><p>140 − 120 = 20 cookies per hour (the 3rd added 30). With the shop and oven fixed, extra workers share the same equipment, so each adds less: diminishing marginal product.</p></div></details>
+<details class="q"><summary>TFC = 20, TVC = 18 at Q = 2 and 10 at Q = 1. Find ATC at Q = 2 and MC from Q = 1 to Q = 2.</summary><div class="ans"><p>TC at Q = 2 is 38, so ATC = 38 ÷ 2 = 19. TC at Q = 1 is 30, so MC = (38 − 30) ÷ 1 = 8.</p></div></details>
+<details class="q"><summary>The idli shop’s rent is ₹15,000 a month. What is AFC at 2,000 packets?</summary><div class="ans"><p>15,000 ÷ 2,000 = ₹7.50 per packet.</p></div></details>
+<details class="q"><summary>You quit a ₹10 lakh job to run a business with ₹12 lakh revenue and ₹3 lakh explicit costs. Find accounting and economic profit, and the implication.</summary><div class="ans"><p>Accounting profit = 12 − 3 = ₹9 lakh. Economic profit = 12 − (3 + 10) = −₹1 lakh. Negative economic profit means your resources would earn more elsewhere; in the long run, exit or change the business.</p></div></details>
+<details class="q"><summary>You bought a non-refundable ₹6,000 concert ticket, then get a free invitation to something you would enjoy more. Should the ₹6,000 affect your choice?</summary><div class="ans"><p>No. It is a sunk cost: gone whichever event you choose. Compare only what each option gives you from now on.</p></div></details>
+<details class="q"><summary>On the AI/dashboard PPF, what is the MRT moving from B to C?</summary><div class="ans"><p>ΔY = 33 − 38 = −5 dashboards, ΔX = +1 model. MRT = 5 dashboards per AI model (−5 with sign).</p></div></details>
+<details class="q"><summary>A firm’s actual output plots inside its PPF. What does that tell you, and what might cause it?</summary><div class="ans"><p>Resources are underutilised (efficiency below 100%). Causes include idle or crowded workers, people with the wrong skills on a task, or machines standing unused.</p></div></details>
+<details class="q"><summary>Why does a hybrid wheat that boosts harvests lower farmers’ total revenue?</summary><div class="ans"><p>Supply shifts right while demand for wheat is inelastic. The price falls by a larger percentage than quantity sold rises, so P × Q falls.</p></div></details>
+<details class="q"><summary>Indian telecom has fewer than ten operators. Which market structure is that, and who influences price?</summary><div class="ans"><p>Oligopoly. The few large players have high bargaining power, so prices are not set purely by free-market forces.</p></div></details>
+<details class="q"><summary>Write a formula to total column P where column A is “Speaker” and column B is “West”.</summary><div class="ans"><p><code>=SUMIFS(P:P, A:A, "Speaker", B:B, "West")</code>. With SUMIFS the sum range comes first.</p></div></details>
+</section>
+
+<section id="uncertain">
+<h2>Open questions in the material</h2>
+<p>Places where the sources conflict, are unclear, or are missing. I have not guessed past these; check them against your course portal or ask in the forum.</p>
+<ul>
+<li><strong>Logistic-regression accuracy:</strong> 80% spoken, 85% on the board (85% fits the “10% drop” remark).</li>
+<li><strong>Founder case revenue:</strong> digits on the board look like 28 in places; all arithmetic uses ₹25 lakh.</li>
+<li><strong>Guns starting value:</strong> 25 spoken, 21 on the board.</li>
+<li><strong>PPF point D:</strong> the board table is hard to read, but the C → D discussion confirms 25 dashboards.</li>
+<li><strong>Lecture slips:</strong> unit-elastic supply described as a price fall raising supply (Lecture 7); “elastic” where “inelastic” is meant (Lecture 6); “fall in pricing” for a price rise (Lecture 6).</li>
+<li><strong>Notation:</strong> K used for labour and L for land in the live session, unlike the usual K = capital, L = labour.</li>
+<li><strong>Figures not in the transcripts:</strong> Lectures 4–7 refer to slides and graphs (labelled a–e) that were not included, so some graph references cannot be checked.</li>
+<li><strong>Excel:</strong> the workbooks were not discussed in any transcript; the two spreadsheets demoed live (tea stall costs, bike PPF) were not uploaded.</li>
+<li><strong>Handwritten boards:</strong> mostly legible; a few annotations could not be read and were left out.</li>
+<li><strong>What comes next (as heard in the recording):</strong> demand and supply wrap-up to close the economics module, a short session on business and marketing, an Excel session, then finance from around Week 5 to Week 9. Instructor names in the recording were not clear enough to state confidently.</li>
+</ul>
+</section>
+
+<footer>
+<p>Compiled from BDM Week 2 materials: Lectures 03–07, two live-session transcripts, the Session 3 and Session 4 boards, and two Excel workbooks. Numbers labelled as derived are my calculations from class data. Diagrams are redrawn for clarity and are not to exact scale unless the axis values are shown.</p>
+</footer>
+</main>
+</div>
+</body>
+</html>
