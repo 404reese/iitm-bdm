@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BDM study notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,450;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;650&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF6EF; --surface:#FFFFFF; --surface2:#F1ECDE; --ink:#3A3530; --muted:#8A8070; --line:#E3DBC6;
+  --sage:#6E8E66; --terracotta:#C2765A;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#1C1A15; --surface:#242019; --surface2:#2C271E; --ink:#EEE7D9; --muted:#AFA48F; --line:#3C352A;
+    --sage:#9BC08F; --terracotta:#E0A085;
+    color-scheme: dark;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font:17px/1.65 "Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+.wrap{max-width:640px;width:100%}
+h1{font-family:"Fraunces",Georgia,serif;font-weight:450;font-style:italic;font-size:2.3rem;margin:0 0 .25em;letter-spacing:-.01em}
+.lead{color:var(--muted);margin:0 0 2em;max-width:50ch}
+.cards{display:grid;gap:16px;grid-template-columns:1fr}
+@media (min-width:560px){.cards{grid-template-columns:1fr 1fr}}
+a.card{display:block;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px 20px;text-decoration:none;color:var(--ink);transition:border-color .15s,transform .15s}
+a.card:hover,a.card:focus-visible{border-color:var(--sage);transform:translateY(-2px)}
+a.card .tag{display:inline-block;font-size:.72rem;letter-spacing:.04em;text-transform:uppercase;color:var(--terracotta);font-family:Inter,sans-serif;font-weight:650;margin-bottom:.5em}
+a.card h2{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:1.25rem;margin:0 0 .35em}
+a.card p{margin:0;color:var(--muted);font-size:.92rem}
+footer{margin-top:2.5em;font-size:.82rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>BDM study notes</h1>
+<p class="lead">Business Data Management — weekly notes compiled from lectures, live sessions and handwritten boards.</p>
+<div class="cards">
+<a class="card" href="week1.html">
+<span class="tag">Week 1</span>
+<h2>Foundations of economics</h2>
+<p>Scarcity, choice, utility, economic systems, production, and two worked optimization problems.</p>
+</a>
+<a class="card" href="week2.html">
+<span class="tag">Week 2</span>
+<h2>Demand, supply, cost and choice</h2>
+<p>Demand and supply, elasticity, production and cost, opportunity cost, economic vs accounting profit, PPF.</p>
+</a>
+</div>
+<footer>Open a week to read the full notes.</footer>
+</div>
+</body>
+</html>
